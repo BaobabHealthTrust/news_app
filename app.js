@@ -25,9 +25,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/sign_in', routes);
+app.use('/add_news_menu', routes);
+app.use('/save_news', routes);
+app.use('/edit_news_menu', routes);
+app.use('/save_edited_news', routes);
+app.use('/void_news_menu', routes);
+app.use('/void_news', routes);
+app.use('/view_news_menu', routes);
 app.use('/users', users);
 app.use('/users/process_authentication', users);
 app.use('/users/sign_out', users);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
