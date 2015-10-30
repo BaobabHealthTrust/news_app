@@ -34,18 +34,7 @@
 
         <script type="text/javascript">
             $(function () {
-                var match = document.cookie.match(new RegExp('color=([^;]+)'));
-                if (match)
-                    var color = match[1];
-                if (color) {
-                    $('body').removeClass(function (index, css) {
-                        return (css.match(/\btheme-\S+/g) || []).join(' ')
-                    })
-                    $('body').addClass('theme-' + color);
-                }
-
                 $('[data-popover="true"]').popover({html: true});
-
             });
         </script>
 
@@ -109,45 +98,26 @@
 
         <div class="sidebar-nav">
             <ul>
-                <li><a href="#" data-target=".dashboard-menu" class="nav-header" data-toggle="collapse"><i class="fa fa-fw fa-dashboard"></i> Dashboard<i class="fa fa-collapse"></i></a></li>
-                <li><ul class="dashboard-menu nav nav-list collapse in">
-                        <li><a href="index.html"><span class="fa fa-caret-right"></span> Main</a></li>
-                        <li ><a href="users.html"><span class="fa fa-caret-right"></span> User List</a></li>
-                        <li ><a href="user.html"><span class="fa fa-caret-right"></span> User Profile</a></li>
-                        <li ><a href="media.html"><span class="fa fa-caret-right"></span> Media</a></li>
-                        <li ><a href="calendar.html"><span class="fa fa-caret-right"></span> Calendar</a></li>
-                    </ul></li>
-
-                <li data-popover="true" data-content="Items in this group require a <strong><a href='http://portnine.com/bootstrap-themes/aircraft' target='blank'>premium license</a><strong>." rel="popover" data-placement="right"><a href="#" data-target=".premium-menu" class="nav-header collapsed" data-toggle="collapse"><i class="fa fa-fw fa-fighter-jet"></i> Premium Features<i class="fa fa-collapse"></i></a></li>
-                <li><ul class="premium-menu nav nav-list collapse">
-                        <li class="visible-xs visible-sm"><a href="#">- Premium features require a license -</a></span>
-                        <li ><a href="premium-profile.html"><span class="fa fa-caret-right"></span> Enhanced Profile</a></li>
-                        <li ><a href="premium-blog.html"><span class="fa fa-caret-right"></span> Blog</a></li>
-                        <li ><a href="premium-blog-item.html"><span class="fa fa-caret-right"></span> Blog Page</a></li>
-                        <li ><a href="premium-pricing-tables.html"><span class="fa fa-caret-right"></span> Pricing Tables</a></li>
-                        <li ><a href="premium-upgrade-account.html"><span class="fa fa-caret-right"></span> Upgrade Account</a></li>
-                        <li ><a href="premium-widgets.html"><span class="fa fa-caret-right"></span> Widgets</a></li>
-                        <li ><a href="premium-timeline.html"><span class="fa fa-caret-right"></span> Activity Timeline</a></li>
-                        <li ><a href="premium-users.html"><span class="fa fa-caret-right"></span> Enhanced Users List</a></li>
-                        <li ><a href="premium-media.html"><span class="fa fa-caret-right"></span> Enhanced Media</a></li>
-                        <li ><a href="premium-invoice.html"><span class="fa fa-caret-right"></span> Invoice</a></li>
-                        <li ><a href="premium-build.html"><span class="fa fa-caret-right"></span> Advanced Tools</a></li>
-                        <li ><a href="premium-colors.html"><span class="fa fa-caret-right"></span> Additional Color Themes</a></li>
-                    </ul></li>
-
-                <li><a href="#" data-target=".accounts-menu" class="nav-header collapsed" data-toggle="collapse"><i class="fa fa-fw fa-briefcase"></i> Account <span class="label label-info">+3</span></a></li>
-                <li><ul class="accounts-menu nav nav-list collapse">
-                        <li ><a href="sign-in.html"><span class="fa fa-caret-right"></span> Sign In</a></li>
-                        <li ><a href="sign-up.html"><span class="fa fa-caret-right"></span> Sign Up</a></li>
-                        <li ><a href="reset-password.html"><span class="fa fa-caret-right"></span> Reset Password</a></li>
-                    </ul></li>
-
-                <li><a href="#" data-target=".legal-menu" class="nav-header collapsed" data-toggle="collapse"><i class="fa fa-fw fa-legal"></i> Legal<i class="fa fa-collapse"></i></a></li>
-                <li><ul class="legal-menu nav nav-list collapse">
-                        <li ><a href="privacy-policy.html"><span class="fa fa-caret-right"></span> Privacy Policy</a></li>
-                        <li ><a href="terms-and-conditions.html"><span class="fa fa-caret-right"></span> Terms and Conditions</a></li>
+                <li><a href="#" data-target=".sports-news-menu" class="nav-header" data-toggle="collapse"><i class="fa fa-fw"></i> Sports News<i class="fa fa-collapse"></i></a></li>
+                <li>
+                    <ul class="sports-news-menu nav nav-list collapse in">
+                        <li><a href="#"><span class="fa fa-caret-right"></span> Add News</a></li>
+                        <li ><a href="#"><span class="fa fa-caret-right"></span> Edit News</a></li>
+                        <li ><a href="#"><span class="fa fa-caret-right"></span> Void News</a></li>
+                        <li ><a href="#"><span class="fa fa-caret-right"></span> View News</a></li>
                     </ul>
                 </li>
+                
+                <li><a href="#" data-target=".local-news-menu" class="nav-header" data-toggle="collapse"><i class="fa fa-fw"></i> Local News<i class="fa fa-collapse"></i></a></li>
+                <li>
+                    <ul class="local-news-menu nav nav-list collapse in">
+                        <li><a href="#"><span class="fa fa-caret-right"></span> Add News</a></li>
+                        <li ><a href="#"><span class="fa fa-caret-right"></span> Edit News</a></li>
+                        <li ><a href="#"><span class="fa fa-caret-right"></span> Void News</a></li>
+                        <li ><a href="#"><span class="fa fa-caret-right"></span> View News</a></li>
+                    </ul>
+                </li>
+
             </ul>
         </div>
 
@@ -209,7 +179,7 @@
 
                 <footer>
                     <hr>
-                    <p>© 2015 <a href="http://www.baobabhealth.org" target="_blank">Baobab Health</a></p>
+                    <p>© 2015 <a href="http://www.baobabhealth.org" target="_blank">Baobab Health Trust</a></p>
                 </footer>
             </div>
         </div>
