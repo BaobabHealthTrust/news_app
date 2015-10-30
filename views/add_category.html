@@ -81,7 +81,7 @@
                 <ul id="main-menu" class="nav navbar-nav navbar-right">
                     <li class="dropdown hidden-xs">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <span class="glyphicon glyphicon-user padding-right-small" style="position:relative;top: 3px;"></span> user
+                            <span class="glyphicon glyphicon-user padding-right-small" style="position:relative;top: 3px;"></span> Hope Kaphukusi
                             <i class="fa fa-caret-down"></i>
                         </a>
 
@@ -95,6 +95,8 @@
 
             </div>
         </div>
+
+
 
         <div class="sidebar-nav">
             <ul>
@@ -131,13 +133,18 @@
         </div>
 
         <div class="content">
+
+      
+
+        
+
             <div class="header">
                 <div class="stats">
                     <p class="stat"><span class="label label-info">5</span> Sports</p>
                     <p class="stat"><span class="label label-success">27</span> Local News</p>
                 </div>
 
-                <h1 class="page-title">Dashboard</h1>
+                <h1 class="page-title">Local News Category</h1>
                 <ul class="breadcrumb">
                     <li><a href="#">Home</a> </li>
                     <li class="active">Dashboard</li>
@@ -145,46 +152,87 @@
 
             </div>
             <div class="main-content">
+            
+<ul class="nav nav-tabs">
+  <li class="active"><a href="#add" data-toggle="tab">Add Category</a></li>
+  <li><a href="#edit" data-toggle="tab">Edit Category</a></li>
+  <li><a href="#void" data-toggle="tab">Void Category</a></li>
+  <li><a href="#view" data-toggle="tab">View Categories</a></li>
+</ul>
 
-                <div class="row">
-                    <div class="col-sm-6 col-md-6">
-                        <div class="panel panel-default">
-                            <div class="panel-heading no-collapse">#Header Here<span class="label label-warning">+10</span></div>
+<div class="row">
+  <div class="col-md-4">
+    <br>
+    <div id="myTabContent" class="tab-content">
+      <div class="tab-pane active in" id="add">
+      <form id="tab">
+        <div class="form-group">
+        <label>Category name</label>
+        <input type="text" value="" class="form-control">
+        </div>
+        <div class="form-group">
+        <label>Category description</label>
+        <input type="text" value="" class="form-control">
+        </div>
 
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-6">
-                        <div class="panel panel-default">
-                            <a href="#widget1container" class="panel-heading" data-toggle="collapse">#Header Here </a>
-                            <div id="widget1container" class="panel-body collapse in">
+        
+        </form>
+      </div>
 
-                            </div>
-                        </div>
-                    </div>
-                </div>
+      <div class="tab-pane fade" id="edit">
 
-                <div class="row">
-                    <div class="col-sm-6 col-md-6">
-                        <div class="panel panel-default"> 
-                            <div class="panel-heading no-collapse">
-                                <span class="panel-icon pull-right">
-                                    <a href="#" class="demo-cancel-click" rel="tooltip" title="Click to refresh"><i class="fa fa-refresh"></i></a>
-                                </span>
-                                #Header Here
-                            </div>
+        <form id="tab2">
+          <div class="form-group">
+        <label>Category name</label>
+        <input type="text" value="" class="form-control">
+        </div>
+        <div class="form-group">
+        <label>Category description</label>
+        <input type="text" value="" class="form-control">
+        </div>
+          
+        </form>
+      </div>
 
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-6">
-                        <div class="panel panel-default">
-                            <a href="#widget2container" class="panel-heading" data-toggle="collapse">#Header Here </a>
-                            <div id="widget2container" class="panel-body collapse in">
+<div class="tab-pane fade" id="void">
 
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <form id="tab2">
+          <div class="form-group">
+        <label>Category name</label>
+        <input type="text" value="" class="form-control">
+        </div>
+        <div class="form-group">
+        <label>Category description</label>
+        <input type="text" value="" class="form-control">
+        </div>
+          
+        </form>
+      </div>
 
+      <div class="tab-pane fade" id="view">
+
+        <form id="tab2">
+          <div class="form-group">
+        <label>Category name</label>
+        <input type="text" value="" class="form-control">
+        </div>
+        <div class="form-group">
+        <label>Category description</label>
+        <input type="text" value="" class="form-control">
+        </div>
+          
+        </form>
+      </div>
+
+    </div>
+
+    <div class="btn-toolbar list-toolbar">
+
+      <button class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
+      <a href="#myModal" data-toggle="modal" class="btn btn-danger">Delete</a>
+    </div>
+  </div>
+</div>
 
                 <footer>
                     <hr>
