@@ -150,41 +150,31 @@
                         <br>
                         <div id="myTabContent" class="tab-content">
                             <div class="tab-pane active in" id="home">
-                                <form id="tab">
+                                <form id="tab" class="news-form" action="/save_news" method="POST">
                                     <div class="form-group">
                                         <label>Title</label>
                                         <input type="text" value="" name="title" class="form-control">
                                     </div>
-                                    
+
 
                                     <div class="form-group">
                                         <label>body</label>
                                         <textarea rows="3" name="body" class="form-control"></textarea>
                                     </div>
-                                    
+
                                     <div class="form-group">
                                         <label>Date</label>
                                         <input type="text" value="" name="date" class="form-control">
                                     </div>
+                                    
+                                    <input type="hidden" value="<%= category %>" name="category">
                                 </form>
                             </div>
 
-                            <div class="tab-pane fade" id="profile">
-
-                                <form id="tab2">
-                                    <div class="form-group">
-                                        <label>New Password</label>
-                                        <input type="password" class="form-control">
-                                    </div>
-                                    <div>
-                                        <button class="btn btn-primary">Update</button>
-                                    </div>
-                                </form>
-                            </div>
                         </div>
 
                         <div class="btn-toolbar list-toolbar">
-                            <button class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
+                            <button onclick="submitNewsForm();" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
                             <a href="/" class="btn btn-danger">Cancel</a>
                         </div>
                     </div>
@@ -200,11 +190,10 @@
         <script src="lib/bootstrap/js/bootstrap.js"></script>
         <script type="text/javascript">
             $("[rel=tooltip]").tooltip();
-            $(function () {
-                $('.demo-cancel-click').click(function () {
-                    return false;
-                });
-            });
+            
+            function submitNewsForm(){
+                document.forms[0].submit();
+            }
         </script>
 
 

@@ -1,5 +1,10 @@
 var express = require('express');
 var router = express.Router();
+var model = require('../models/newsFeed');
+var knex = require('../config/bookshelf').knex;
+
+News = model.News;
+Tracker = model.Tracker;
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -12,16 +17,30 @@ router.get('/sign_in', function (req, res, next) {
 
 router.get('/add_news_menu', function (req, res, next) {
     newsCategory = (req.query.category.replace("_", ' ')).capitalize();
-    res.render('add_news_menu', {newsCategory: newsCategory});
+    res.render('add_news_menu', {newsCategory: newsCategory, category:req.query.category});
 });
 
 router.post('/save_news', function (req, res, next) {
-    /* SAVE DATA HERE */
+    console.log(req.body)
+    title = req.body.title;
+    body = req.body.body;
+    category = req.body.category;
+    date = req.body.date;
+    console.log("title = " + title + "\n body = " + body)
+    new News({
+        title: title,
+        body: body,
+        category: category,
+        date: date
+    }).save().then(function (news) {
+        console.log('Record Successfully Saved');
+        res.redirect("/add_news_menu?category=" + category);
+    })
 });
 
 router.get('/edit_news_menu', function (req, res, next) {
     newsCategory = (req.query.category.replace("_", ' ')).capitalize();
-    res.render('edit_news_menu', {newsCategory: newsCategory});
+    res.render('edit_news_menu', {newsCategory: newsCategory, category:req.query.category});
 });
 
 router.post('/save_edited_news', function (req, res, next) {
@@ -30,7 +49,7 @@ router.post('/save_edited_news', function (req, res, next) {
 
 router.get('/void_news_menu', function (req, res, next) {
     newsCategory = (req.query.category.replace("_", ' ')).capitalize();
-    res.render('void_news_menu', {newsCategory: newsCategory});
+    res.render('void_news_menu', {newsCategory: newsCategory, category:req.query.category});
 });
 
 router.post('/void_news', function (req, res, next) {
@@ -39,16 +58,16 @@ router.post('/void_news', function (req, res, next) {
 
 router.get('/view_news_menu', function (req, res, next) {
     newsCategory = (req.query.category.replace("_", ' ')).capitalize();
-    res.render('view_news_menu', {newsCategory: newsCategory});
+    res.render('view_news_menu', {newsCategory: newsCategory, category:req.query.category});
 });
 
 
 
-String.prototype.capitalize = function(){
-        return this.toLowerCase().replace( /\b\w/g, function (m) {
-            return m.toUpperCase();
-        });
-    };
+String.prototype.capitalize = function () {
+    return this.toLowerCase().replace(/\b\w/g, function (m) {
+        return m.toUpperCase();
+    });
+};
 
 
 module.exports = router;
