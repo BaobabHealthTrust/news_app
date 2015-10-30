@@ -107,7 +107,7 @@
                         <li ><a href="/view_news_menu?category=sports_news"><span class="fa fa-caret-right"></span> View News</a></li>
                     </ul>
                 </li>
-                
+
                 <li><a href="#" data-target=".local-news-menu" class="nav-header" data-toggle="collapse"><i class="fa fa-fw"></i> Local News<i class="fa fa-collapse"></i></a></li>
                 <li>
                     <ul class="local-news-menu nav nav-list collapse in">
@@ -145,47 +145,50 @@
 
             </div>
             <div class="main-content">
-
                 <div class="row">
-                    <div class="col-sm-6 col-md-6">
-                        <div class="panel panel-default">
-                            <div class="panel-heading no-collapse">#Header Here<span class="label label-warning">+10</span></div>
+                    <div class="col-md-4">
+                        <br>
+                        <div id="myTabContent" class="tab-content">
+                            <div class="tab-pane active in" id="home">
+                                <form id="tab">
+                                    <div class="form-group">
+                                        <label>Title</label>
+                                        <input type="text" value="" name="title" class="form-control">
+                                    </div>
+                                    
 
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-6">
-                        <div class="panel panel-default">
-                            <a href="#widget1container" class="panel-heading" data-toggle="collapse">#Header Here </a>
-                            <div id="widget1container" class="panel-body collapse in">
-
+                                    <div class="form-group">
+                                        <label>body</label>
+                                        <textarea rows="3" name="body" class="form-control"></textarea>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label>Date</label>
+                                        <input type="text" value="" name="date" class="form-control">
+                                    </div>
+                                </form>
                             </div>
+
+                            <div class="tab-pane fade" id="profile">
+
+                                <form id="tab2">
+                                    <div class="form-group">
+                                        <label>New Password</label>
+                                        <input type="password" class="form-control">
+                                    </div>
+                                    <div>
+                                        <button class="btn btn-primary">Update</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="btn-toolbar list-toolbar">
+                            <button class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
+                            <a href="/" class="btn btn-danger">Cancel</a>
                         </div>
                     </div>
                 </div>
-
-                <div class="row">
-                    <div class="col-sm-6 col-md-6">
-                        <div class="panel panel-default"> 
-                            <div class="panel-heading no-collapse">
-                                <span class="panel-icon pull-right">
-                                    <a href="#" class="demo-cancel-click" rel="tooltip" title="Click to refresh"><i class="fa fa-refresh"></i></a>
-                                </span>
-                                #Header Here
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-6">
-                        <div class="panel panel-default">
-                            <a href="#widget2container" class="panel-heading" data-toggle="collapse">#Header Here </a>
-                            <div id="widget2container" class="panel-body collapse in">
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
                 <footer>
                     <hr>
                     <p>© 2015 <a href="http://www.baobabhealth.org" target="_blank">Baobab Health Trust</a></p>
