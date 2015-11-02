@@ -17,7 +17,6 @@ router.get('/news_feed', function (req, res, next) {
         news["sports_news"] = sports_news;
         knex('news').where({category: 'local_news'}).limit(10).then(function (local_news) {
             news["local_news"] = local_news;
-            var count = 1;
             var data = {};
             knex('tracker').where({ip_address: ipAddress}).andWhere('news_id', '>', 0).then(function (trackers) {
                 var logs = {}
@@ -31,9 +30,9 @@ router.get('/news_feed', function (req, res, next) {
                         if (news[category][row]["category"] === 'local_news')
                             news_category = 'news';
 
-                        datetime = "1443657600000" //To be pulled from the db
-                        data[count] = {id: newsId, title: title, body: body, category: news_category, datetime: datetime};
-                        count = count + 1;
+                        date_created = news[category][row]["created_at"];
+                        datetime = (new Date(date_created)).getTime() //To be pulled from the db
+                        data[newsId] = {id: newsId, title: title, body: body, category: news_category, datetime: datetime};
                     }
                 }
 
