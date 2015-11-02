@@ -49,6 +49,7 @@ router.get('/news_feed', function (req, res, next) {
 
 router.get('/log', function (req, res, next) {
     console.log("Request Received");
+    console.log(req.query)
     newsId = req.query.news_id;
     news_category = req.query.category;
     ip_address = req.query.ip_address;
@@ -58,7 +59,8 @@ router.get('/log', function (req, res, next) {
         ip_address: ip_address
     }).save().then(function (tracker) {
         console.log('Record Successfully Saved');
-        res.send("done");
+        feedback = {data : 'done'}
+        res.send(feedback);
     });
 });
 
