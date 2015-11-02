@@ -12,10 +12,11 @@ connection.query('CREATE DATABASE ' + dbconfig.database);
 connection.query('\
 CREATE TABLE `' + dbconfig.database + '`.`news` ( \
     `news_id` INT UNSIGNED NOT NULL AUTO_INCREMENT, \
-    `title` VARCHAR(20) NOT NULL, \
+    `title` CHAR(255) NOT NULL, \
     `body` CHAR(255) NOT NULL, \
     `category` CHAR(60) NOT NULL, \
     `date` DATE NOT NULL, \
+    `created_at` TIMESTAMP NOT NULL, \
      PRIMARY KEY (`news_id`)\
 )');
 
@@ -25,6 +26,7 @@ CREATE TABLE `' + dbconfig.database + '`.`tracker` ( \
     `ip_address` VARCHAR(20) NOT NULL, \
     `link` CHAR(100) NOT NULL, \
     `date` DATE NOT NULL, \
+    `created_at` TIMESTAMP NOT NULL, \
      PRIMARY KEY (`tracker_id`)\
 )');
 
