@@ -39,6 +39,7 @@ app.use('/users/sign_out', users);
 app.use('/api', api);
 app.use('/api/news_feed/', api);
 app.use('/api/log/:data?', api);
+app.use('/api/logs/', api);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
