@@ -29,7 +29,7 @@ router.get('/news_feed', function (req, res, next) {
                     if (news[category][row]["category"] === 'local_news') news_category = 'news';
 
                     datetime = "1443657600000" //To be pulled from the db
-                    data[count] = {id: newsId, title: title, body: body, category: news_category};
+                    data[count] = {id: newsId, title: title, body: body, category: news_category, datetime: datetime};
                     count = count + 1;
                 }
             }
