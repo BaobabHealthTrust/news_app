@@ -98,7 +98,6 @@ router.get('/edit_my_news/', function (req, res, next) {
 });
 
 router.post('/save_edited_news', function (req, res, next) {
-    console.log(req.body)
     news_id = req.body.news_id;
     title = req.body.title;
     body = req.body.body;
