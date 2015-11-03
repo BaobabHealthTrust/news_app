@@ -17,16 +17,16 @@ router.get('/sign_in', function (req, res, next) {
 
 router.get('/add_news_menu', function (req, res, next) {
     newsCategory = (req.query.category.replace("_", ' ')).capitalize();
-    res.render('add_news_menu', {newsCategory: newsCategory, category:req.query.category});
+    res.render('add_news_menu', {newsCategory: newsCategory, category: req.query.category});
 });
 
 /*
-router.post('/save_news', function (req, res, next) {
-    
-
-
-});
-*/
+ router.post('/save_news', function (req, res, next) {
+ 
+ 
+ 
+ });
+ */
 
 
 router.post('/save_news', function (req, res, next) {
@@ -45,25 +45,25 @@ router.post('/save_news', function (req, res, next) {
         console.log('Record Successfully Saved');
         res.redirect("/add_news_menu?category=" + category);
     })
-}); 
-
-/*
-router.get('/edit_news_menu', function(req, res, next){
-
-new News({news_id: '1'})
-  .fetch()
-  .then(function(news) {
-    res.render('edit_news_menu', {
-    users : [news.get('title'), news.get('body')] });
-   // console.log(news.get('title'), news.get('body'));
-    
-  });
 });
 
-*/
+/*
+ router.get('/edit_news_menu', function(req, res, next){
+ 
+ new News({news_id: '1'})
+ .fetch()
+ .then(function(news) {
+ res.render('edit_news_menu', {
+ users : [news.get('title'), news.get('body')] });
+ // console.log(news.get('title'), news.get('body'));
+ 
+ });
+ });
+ 
+ */
 
-router.get('/add_category', function(req, res, next) {
-  res.render('add_category', { title: 'Express' });
+router.get('/add_category', function (req, res, next) {
+    res.render('add_category', {title: 'Express'});
 });
 
 router.post('/save_category', function (req, res, next) {
@@ -82,33 +82,37 @@ router.post('/save_category', function (req, res, next) {
     })
 });
 
-/* router.get('/edit_news_menu', function (req, res, next) {
+router.get('/edit_news_menu', function (req, res, next) {
     newsCategory = (req.query.category.replace("_", ' ')).capitalize();
-    res.render('edit_news_menu', {newsCategory: newsCategory, category:req.query.category});
-}); */
+    knex('news').where({category: req.query.category}).limit(10).then(function (news) {
+        res.render('edit_news_menu', {newsCategory: newsCategory, category: req.query.category, news: news});
+    });
+});
+
+router.get('/edit_my_news/', function (req, res, next) {
+
+    newsCategory = (req.query.category.replace("_", ' ')).capitalize();
+    knex('news').where({news_id: req.query.news_id}).limit(1).then(function (my_news) {
+        res.render('edit_my_news', {newsCategory: newsCategory, category: req.query.category, my_news: my_news[0]});
+    });
+});
 
 router.post('/save_edited_news', function (req, res, next) {
-
-	title = req.body.title;
+    console.log(req.body)
+    news_id = req.body.news_id;
+    title = req.body.title;
     body = req.body.body;
     category = req.body.category;
-    date = req.body.date;
 
-	new News({news_id: 1})
-         .save({title: 'title',
-         		body: 'body',
-         		category: 'category',
-         		date: 'date'
-     			}, {patch: true})
-         .then(function(news) {
-           // ...
-         });
-    /* SAVE EDITED DATA HERE */
+    new News({news_id: news_id}).save({title: title, body: body})
+            .then(function (news) {
+                res.redirect("/edit_news_menu?category=" + category);
+            });
 });
 
 router.get('/void_news_menu', function (req, res, next) {
     newsCategory = (req.query.category.replace("_", ' ')).capitalize();
-    res.render('void_news_menu', {newsCategory: newsCategory, category:req.query.category});
+    res.render('void_news_menu', {newsCategory: newsCategory, category: req.query.category});
 });
 
 router.post('/void_news', function (req, res, next) {
@@ -117,7 +121,7 @@ router.post('/void_news', function (req, res, next) {
 
 router.get('/view_news_menu', function (req, res, next) {
     newsCategory = (req.query.category.replace("_", ' ')).capitalize();
-    res.render('view_news_menu', {newsCategory: newsCategory, category:req.query.category});
+    res.render('view_news_menu', {newsCategory: newsCategory, category: req.query.category});
 });
 
 String.prototype.capitalize = function () {
