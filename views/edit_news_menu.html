@@ -157,9 +157,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                    <% each item in rows %>
+                
                         <tr>
-                            <td><%= item.news_id %></td>
+                            <td></td>
                             <td>Title</td>
                             <td>Body</td>
                             <td>Date</td>
@@ -171,35 +171,7 @@
                     </tbody>
                 </table>
 
-                <div id="myTabContent" class="tab-content">
-                            <div class="tab-pane active in" id="home">
-                                <form id="tab" class="news-form" action="/save_edited_news" method="POST">
-                                    <div class="form-group">
-                                        <label>Title</label>
-                                   
-
-                                        <input type="text" name="title" class="form-control">
-                                    </iv>
-
-
-                                    <div class="form-group">
-                                        <label>body</label>
-                                        <textarea rows="3"  name="body" class="form-control"></textarea>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label>Date</label>
-                                        <input type="text" name="date" class="form-control">
-                                    </div>
-                                    
-                                    <input type="hidden" name="category">
-
-                                    
-                                </form>
-                            </div>
-
-                        </div>
-
+                
                 <footer>
                     <hr>
                     <p>© 2015 <a href="http://www.baobabhealth.org" target="_blank">Baobab Health Trust</a></p>

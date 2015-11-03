@@ -48,23 +48,20 @@ router.post('/save_news', function (req, res, next) {
 }); 
 
 /*
-
 router.get('/edit_news_menu', function(req, res, next){
 
 new News({news_id: '1'})
-  .fetch(function(err, rows, fields))
+  .fetch()
   .then(function(news) {
     res.render('edit_news_menu', {
     users : [news.get('title'), news.get('body')] });
    // console.log(news.get('title'), news.get('body'));
-    res.render('edit_news_menu');
     
   });
-
-  
 });
 
 */
+
 router.get('/add_category', function(req, res, next) {
   res.render('add_category', { title: 'Express' });
 });
@@ -92,8 +89,17 @@ router.post('/save_category', function (req, res, next) {
 
 router.post('/save_edited_news', function (req, res, next) {
 
-	new News({news_id: 1, title: 'First title'})
-         .save({body: 'Short user bio'}, {patch: true})
+	title = req.body.title;
+    body = req.body.body;
+    category = req.body.category;
+    date = req.body.date;
+
+	new News({news_id: 1})
+         .save({title: 'title',
+         		body: 'body',
+         		category: 'category',
+         		date: 'date'
+     			}, {patch: true})
          .then(function(news) {
            // ...
          });
