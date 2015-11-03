@@ -152,7 +152,6 @@
                             <th>&nbsp;</th>
                             <th>Title</th>
                             <th>Body</th>
-                            <th style="width: 3.5em;"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -161,15 +160,12 @@
                             <td><input type="checkbox" value="<%= news[row].news_id %>" name="news_ids[]"/></td>
                             <td><%= news[row].title %></td>
                             <td><%= news[row].body %></td>
-                            <td>
-                                <a href="#myModal" role="button" data-toggle="modal"><i class="fa fa-trash-o"></i></a>
-                            </td>
                         </tr>
                         <% } %>
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td colspan="4"><a class="btn btn-danger">Delete Selected »</a></td>
+                            <td colspan="4"><a href="#myModal" role="button" data-toggle="modal" class="btn btn-danger">Delete Selected <i class="fa fa-trash-o"></i></a></td>
                         </tr>
                     </tfoot>
                 </table>
@@ -216,15 +212,17 @@
                                             newsIds.push(this.value);
                                         });
                                         console.log(newsIds);
-                                        jQuery.ajax({
-                                            type: "POST",
-                                            url: "/void_news",
-                                            data: "news_ids=" + newsIds,
-                                            success: function () {
-                                                
-                                            }
+                                        if (newsIds.length > 0) {
+                                            jQuery.ajax({
+                                                type: "POST",
+                                                url: "/void_news",
+                                                data: "news_ids=" + newsIds,
+                                                success: function () {
+                                                    window.location = location.href;
+                                                }
 
-                                        });
+                                            });
+                                        }
                                     }
         </script>
 
