@@ -70,7 +70,7 @@ router.post('/save_category', function (req, res, next) {
     console.log(req.body)
     category_name = req.body.category_name;
     description = req.body.description;
-    date = req.body.date;
+    date = new Date();//req.body.date;
     console.log("category_name = " + category_name + "\n description = " + description)
     new Category({
         category_name: category_name,
