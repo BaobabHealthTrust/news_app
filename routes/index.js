@@ -20,6 +20,15 @@ router.get('/add_news_menu', function (req, res, next) {
     res.render('add_news_menu', {newsCategory: newsCategory, category:req.query.category});
 });
 
+/*
+router.post('/save_news', function (req, res, next) {
+    
+
+
+});
+*/
+
+
 router.post('/save_news', function (req, res, next) {
     console.log(req.body)
     title = req.body.title;
@@ -36,14 +45,64 @@ router.post('/save_news', function (req, res, next) {
         console.log('Record Successfully Saved');
         res.redirect("/add_news_menu?category=" + category);
     })
+}); 
+
+/*
+router.get('/edit_news_menu', function(req, res, next){
+
+new News({news_id: '1'})
+  .fetch()
+  .then(function(news) {
+    res.render('edit_news_menu', {
+    users : [news.get('title'), news.get('body')] });
+   // console.log(news.get('title'), news.get('body'));
+    
+  });
 });
 
-router.get('/edit_news_menu', function (req, res, next) {
+*/
+
+router.get('/add_category', function(req, res, next) {
+  res.render('add_category', { title: 'Express' });
+});
+
+router.post('/save_category', function (req, res, next) {
+    console.log(req.body)
+    category_name = req.body.category_name;
+    description = req.body.description;
+    date = req.body.date;
+    console.log("category_name = " + category_name + "\n description = " + description)
+    new Category({
+        category_name: category_name,
+        description: description,
+        date: date
+    }).save().then(function (category) {
+        console.log('Record Successfully Saved');
+        res.redirect("/add_category?category=" + category);
+    })
+});
+
+/* router.get('/edit_news_menu', function (req, res, next) {
     newsCategory = (req.query.category.replace("_", ' ')).capitalize();
     res.render('edit_news_menu', {newsCategory: newsCategory, category:req.query.category});
-});
+}); */
 
 router.post('/save_edited_news', function (req, res, next) {
+
+	title = req.body.title;
+    body = req.body.body;
+    category = req.body.category;
+    date = req.body.date;
+
+	new News({news_id: 1})
+         .save({title: 'title',
+         		body: 'body',
+         		category: 'category',
+         		date: 'date'
+     			}, {patch: true})
+         .then(function(news) {
+           // ...
+         });
     /* SAVE EDITED DATA HERE */
 });
 
@@ -60,8 +119,6 @@ router.get('/view_news_menu', function (req, res, next) {
     newsCategory = (req.query.category.replace("_", ' ')).capitalize();
     res.render('view_news_menu', {newsCategory: newsCategory, category:req.query.category});
 });
-
-
 
 String.prototype.capitalize = function () {
     return this.toLowerCase().replace(/\b\w/g, function (m) {
