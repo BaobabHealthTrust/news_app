@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var api = require('./routes/api');
 
 var app = express();
 
@@ -37,6 +38,10 @@ app.use('/view_news_menu/:category?', routes);
 app.use('/users', users);
 app.use('/users/process_authentication', users);
 app.use('/users/sign_out', users);
+app.use('/api', api);
+app.use('/api/news_feed/', api);
+app.use('/api/log/:data?', api);
+app.use('/api/logs/', api);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
