@@ -107,7 +107,7 @@
                         <li ><a href="/view_news_menu?category=sports_news"><span class="fa fa-caret-right"></span> View News</a></li>
                     </ul>
                 </li>
-                
+
                 <li><a href="#" data-target=".local-news-menu" class="nav-header" data-toggle="collapse"><i class="fa fa-fw"></i> Local News<i class="fa fa-collapse"></i></a></li>
                 <li>
                     <ul class="local-news-menu nav nav-list collapse in">
@@ -145,6 +145,26 @@
 
             </div>
             <div class="main-content">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Title</th>
+                            <th>Body</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% var count = 1%>
+                        <% for (var row in news){ %>
+                        <tr>
+                            <td style="font-weight: bold;"><%= count %>.</td>
+                            <td><%= news[row].title %></td>
+                            <td><%= news[row].body %></td>
+                        </tr>
+                        <% count = count + 1 %>
+                        <% } %>
+                    </tbody>
+                </table>
                 
                 <footer>
                     <hr>

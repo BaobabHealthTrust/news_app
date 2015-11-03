@@ -120,7 +120,9 @@ router.post('/void_news', function (req, res, next) {
 
 router.get('/view_news_menu', function (req, res, next) {
     newsCategory = (req.query.category.replace("_", ' ')).capitalize();
-    res.render('view_news_menu', {newsCategory: newsCategory, category: req.query.category});
+    knex('news').where({category: req.query.category}).limit(10).then(function (news) {
+        res.render('view_news_menu', {newsCategory: newsCategory, category: req.query.category, news: news});
+    });
 });
 
 String.prototype.capitalize = function () {
