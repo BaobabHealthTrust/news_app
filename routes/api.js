@@ -11,7 +11,8 @@ Tracker = model.Tracker;
 router.get('/news_feed', function (req, res, next) {
     var news = {};
     unformattedIpString = req.connection.remoteAddress.split(":")
-    ipAddress = unformattedIpString[unformattedIpString.length - 1];
+    // ipAddress = unformattedIpString[unformattedIpString.length - 1];
+    ipAddress = req.query.ip_address;
 
     knex('news').where({category: 'sports_news'}).limit(10).then(function (sports_news) {
         news["sports_news"] = sports_news;
