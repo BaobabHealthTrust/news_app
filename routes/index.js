@@ -20,14 +20,10 @@ router.get('/add_news_menu', function (req, res, next) {
     res.render('add_news_menu', {newsCategory: newsCategory, category: req.query.category});
 });
 
-/*
- router.post('/save_news', function (req, res, next) {
- 
- 
- 
- });
- */
-
+router.get('/add_category_menu', function (req, res, next) {
+    newsCategory = (req.query.category.replace("_", ' ')).capitalize();
+    res.render('add_category_menu', {newsCategory: newsCategory, category: req.query.category});
+});
 
 router.post('/save_news', function (req, res, next) {
     console.log(req.body)
@@ -45,25 +41,6 @@ router.post('/save_news', function (req, res, next) {
         console.log('Record Successfully Saved');
         res.redirect("/add_news_menu?category=" + category);
     })
-});
-
-/*
- router.get('/edit_news_menu', function(req, res, next){
- 
- new News({news_id: '1'})
- .fetch()
- .then(function(news) {
- res.render('edit_news_menu', {
- users : [news.get('title'), news.get('body')] });
- // console.log(news.get('title'), news.get('body'));
- 
- });
- });
- 
- */
-
-router.get('/add_category', function (req, res, next) {
-    res.render('add_category', {title: 'Express'});
 });
 
 router.post('/save_category', function (req, res, next) {
