@@ -17,7 +17,15 @@ router.get('/sign_in', function (req, res, next) {
 
 router.get('/add_news_menu', function (req, res, next) {
     newsCategory = (req.query.category.replace("_", ' ')).capitalize();
-    res.render('add_news_menu', {newsCategory: newsCategory, category: req.query.category});
+    knex('news').where({category: 'sports_news'}).count("news_id as sports_count").then(function (sports_total) {
+        sports_count = sports_total[0]["sports_count"];
+        knex('news').where({category: 'local_news'}).count("news_id as local_count").then(function (local_total) {
+            local_count = local_total[0]["local_count"];
+            console.log("Sports = " + sports_count + " Local = " + local_count)
+            res.render('add_news_menu', {newsCategory: newsCategory, category: req.query.category, sports_count: sports_count, local_count: local_count});
+        });
+    });
+
 });
 
 /*
@@ -84,9 +92,20 @@ router.post('/save_category', function (req, res, next) {
 
 router.get('/edit_news_menu', function (req, res, next) {
     newsCategory = (req.query.category.replace("_", ' ')).capitalize();
-    knex('news').where({category: req.query.category}).limit(10).then(function (news) {
-        res.render('edit_news_menu', {newsCategory: newsCategory, category: req.query.category, news: news});
+
+    knex('news').where({category: 'sports_news'}).count("news_id as sports_count").then(function (sports_total) {
+        sports_count = sports_total[0]["sports_count"];
+        knex('news').where({category: 'local_news'}).count("news_id as local_count").then(function (local_total) {
+            local_count = local_total[0]["local_count"];
+            knex('news').where({category: req.query.category}).limit(10).then(function (news) {
+                res.render('edit_news_menu', {newsCategory: newsCategory, category: req.query.category, news: news, sports_count: sports_count, local_count: local_count});
+            });
+            //res.render('add_news_menu', {newsCategory: newsCategory, category: req.query.category, sports_count: sports_count, local_count: local_count});
+        });
     });
+
+
+
 });
 
 router.get('/edit_my_news/', function (req, res, next) {
