@@ -149,24 +149,29 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th>&nbsp;</th>
                             <th>Title</th>
                             <th>Body</th>
-                            <th>Date</th>
                             <th style="width: 3.5em;"></th>
                         </tr>
                     </thead>
                     <tbody>
+                        <% for (var row in news){ %>
                         <tr>
-                            <td>1</td>
-                            <td>Title</td>
-                            <td>Body</td>
-                            <td>Date</td>
+                            <td><input type="checkbox" value="<%= news[row].news_id %>" name="news_ids[]"/></td>
+                            <td><%= news[row].title %></td>
+                            <td><%= news[row].body %></td>
                             <td>
                                 <a href="#myModal" role="button" data-toggle="modal"><i class="fa fa-trash-o"></i></a>
                             </td>
                         </tr>
+                        <% } %>
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4"><a class="btn btn-danger">Delete Selected »</a></td>
+                        </tr>
+                    </tfoot>
                 </table>
 
 

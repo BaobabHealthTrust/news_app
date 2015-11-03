@@ -111,7 +111,9 @@ router.post('/save_edited_news', function (req, res, next) {
 
 router.get('/void_news_menu', function (req, res, next) {
     newsCategory = (req.query.category.replace("_", ' ')).capitalize();
-    res.render('void_news_menu', {newsCategory: newsCategory, category: req.query.category});
+    knex('news').where({category: req.query.category}).limit(10).then(function (news) {
+        res.render('void_news_menu', {newsCategory: newsCategory, category: req.query.category, news: news});
+    });
 });
 
 router.post('/void_news', function (req, res, next) {
