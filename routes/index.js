@@ -34,7 +34,7 @@ router.post('/save_news', function (req, res, next) {
     title = req.body.title;
     body = req.body.body;
     category = req.body.category;
-    date = req.body.date;
+    date = new Date();
     console.log("title = " + title + "\n body = " + body)
     new News({
         title: title,
@@ -70,7 +70,7 @@ router.post('/save_category', function (req, res, next) {
     console.log(req.body)
     category_name = req.body.category_name;
     description = req.body.description;
-    date = new Date();//req.body.date;
+    day = new Date();
     console.log("category_name = " + category_name + "\n description = " + description)
     new Category({
         category_name: category_name,
