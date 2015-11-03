@@ -24,7 +24,19 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
+app.use('/sign_in', routes);
+app.use('/add_news_menu/:category?', routes);
+app.use('/save_news', routes);
+app.use('/add_category/:category?', routes);
+app.use('/save_category', routes);
+app.use('/edit_news_menu/:category?', routes);
+app.use('/save_edited_news', routes);
+app.use('/void_news_menu/:category?', routes);
+app.use('/void_news', routes);
+app.use('/view_news_menu/:category?', routes);
 app.use('/users', users);
+app.use('/users/process_authentication', users);
+app.use('/users/sign_out', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -57,5 +69,11 @@ app.use(function(err, req, res, next) {
   });
 });
 
+
+new News({news_id: '1'})
+  .fetch()
+  .then(function(news) {
+    console.log(news.get('title'), news.get('body'));
+  });
 
 module.exports = app;

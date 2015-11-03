@@ -12,7 +12,7 @@ connection.query('CREATE DATABASE ' + dbconfig.database);
 connection.query('\
 CREATE TABLE `' + dbconfig.database + '`.`news` ( \
     `news_id` INT UNSIGNED NOT NULL AUTO_INCREMENT, \
-    `title` VARCHAR(20) NOT NULL, \
+    `title` VARCHAR(255) NOT NULL, \
     `body` CHAR(255) NOT NULL, \
     `category` CHAR(60) NOT NULL, \
     `date` DATE NOT NULL, \
@@ -28,7 +28,24 @@ CREATE TABLE `' + dbconfig.database + '`.`tracker` ( \
      PRIMARY KEY (`tracker_id`)\
 )');
 
+connection.query('\
+CREATE TABLE `' + dbconfig.database + '`.`category` ( \
+    `category_id` INT UNSIGNED NOT NULL AUTO_INCREMENT, \
+    `category_name` VARCHAR(100) NOT NULL, \
+    `description` CHAR(100) NOT NULL, \
+    `date` DATE NOT NULL, \
+     PRIMARY KEY (`category_id`)\
+)');
+
+connection.query('\
+CREATE TABLE `' + dbconfig.database + '`.`user` ( \
+    `user_id` INT UNSIGNED NOT NULL AUTO_INCREMENT, \
+    `username` VARCHAR(100) NOT NULL, \
+    `password` CHAR(100) NOT NULL, \
+    `date` DATE NOT NULL, \
+     PRIMARY KEY (`user_id`)\
+)');
+
 console.log('Success: Database Created!')
 
 connection.end();
-

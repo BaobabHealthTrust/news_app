@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head>
         <meta charset="utf-8">
-        <title>News Feed</title>
+        <title>Add News Menu</title>
         <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="">
@@ -81,7 +81,7 @@
                 <ul id="main-menu" class="nav navbar-nav navbar-right">
                     <li class="dropdown hidden-xs">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <span class="glyphicon glyphicon-user padding-right-small" style="position:relative;top: 3px;"></span> user
+                            <span class="glyphicon glyphicon-user padding-right-small" style="position:relative;top: 3px;"></span> Jack Smith
                             <i class="fa fa-caret-down"></i>
                         </a>
 
@@ -107,7 +107,7 @@
                         <li ><a href="/view_news_menu?category=sports_news"><span class="fa fa-caret-right"></span> View News</a></li>
                     </ul>
                 </li>
-                
+
                 <li><a href="#" data-target=".local-news-menu" class="nav-header" data-toggle="collapse"><i class="fa fa-fw"></i> Local News<i class="fa fa-collapse"></i></a></li>
                 <li>
                     <ul class="local-news-menu nav nav-list collapse in">
@@ -121,10 +121,10 @@
                 <li><a href="#" data-target=".local-news-category-menu" class="nav-header" data-toggle="collapse"><i class="fa fa-fw"></i> Local News Category<i class="fa fa-collapse"></i></a></li>
                 <li>
                     <ul class="local-news-category-menu nav nav-list collapse in">
-                        <li><a href="/add_news_menu?category=local_news_category"><span class="fa fa-caret-right"></span> Add Category</a></li>
-                        <li ><a href="/edit_news_menu?category=local_news_category"><span class="fa fa-caret-right"></span> Edit Category</a></li>
-                        <li ><a href="/void_news_menu?category=local_news_category"><span class="fa fa-caret-right"></span> Void Category</a></li>
-                        <li ><a href="/view_news_menu?category=local_news_category"><span class="fa fa-caret-right"></span> View Categories</a></li>
+                        <li><a href="#"><span class="fa fa-caret-right"></span> Add Category</a></li>
+                        <li ><a href="#"><span class="fa fa-caret-right"></span> Edit Category</a></li>
+                        <li ><a href="#"><span class="fa fa-caret-right"></span> Void Category</a></li>
+                        <li ><a href="#"><span class="fa fa-caret-right"></span> View Categories</a></li>
                     </ul>
                 </li>
             </ul>
@@ -137,55 +137,48 @@
                     <p class="stat"><span class="label label-success">27</span> Local News</p>
                 </div>
 
-                <h1 class="page-title">Dashboard</h1>
+                <h1 class="page-title"><%= newsCategory %></h1>
                 <ul class="breadcrumb">
                     <li><a href="/">Home</a> </li>
-                    <li class="active">Dashboard</li>
+                    <li class="active">Add News</li>
                 </ul>
 
             </div>
             <div class="main-content">
-
                 <div class="row">
-                    <div class="col-sm-6 col-md-6">
-                        <div class="panel panel-default">
-                            <div class="panel-heading no-collapse">#Header Here<span class="label label-warning">+10</span></div>
+                    <div class="col-md-4">
+                        <br>
+                        <div id="myTabContent" class="tab-content">
+                            <div class="tab-pane active in" id="home">
+                                <form id="tab" class="news-form" action="/save_news" method="POST">
+                                    <div class="form-group">
+                                        <label>Title</label>
+                                        <input type="text" value="" name="title" class="form-control">
+                                    </iv>
+
+
+                                    <div class="form-group">
+                                        <label>body</label>
+                                        <textarea rows="3" name="body" class="form-control"></textarea>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Date</label>
+                                        <input type="text" value="" name="date" class="form-control">
+                                    </div>
+                                    
+                                    <input type="hidden" value="<%= category %>" name="category">
+                                </form>
+                            </div>
 
                         </div>
-                    </div>
-                    <div class="col-sm-6 col-md-6">
-                        <div class="panel panel-default">
-                            <a href="#widget1container" class="panel-heading" data-toggle="collapse">#Header Here </a>
-                            <div id="widget1container" class="panel-body collapse in">
 
-                            </div>
+                        <div class="btn-toolbar list-toolbar">
+                            <button onclick="submitNewsForm();" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
+                            <a href="/" class="btn btn-danger">Cancel</a>
                         </div>
                     </div>
                 </div>
-
-                <div class="row">
-                    <div class="col-sm-6 col-md-6">
-                        <div class="panel panel-default"> 
-                            <div class="panel-heading no-collapse">
-                                <span class="panel-icon pull-right">
-                                    <a href="#" class="demo-cancel-click" rel="tooltip" title="Click to refresh"><i class="fa fa-refresh"></i></a>
-                                </span>
-                                #Header Here
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-6">
-                        <div class="panel panel-default">
-                            <a href="#widget2container" class="panel-heading" data-toggle="collapse">#Header Here </a>
-                            <div id="widget2container" class="panel-body collapse in">
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
                 <footer>
                     <hr>
                     <p>© 2015 <a href="http://www.baobabhealth.org" target="_blank">Baobab Health Trust</a></p>
@@ -197,11 +190,10 @@
         <script src="lib/bootstrap/js/bootstrap.js"></script>
         <script type="text/javascript">
             $("[rel=tooltip]").tooltip();
-            $(function () {
-                $('.demo-cancel-click').click(function () {
-                    return false;
-                });
-            });
+            
+            function submitNewsForm(){
+                document.forms[0].submit();
+            }
         </script>
 
 

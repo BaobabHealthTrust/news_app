@@ -1,5 +1,6 @@
 *.swp
 *.swo
+*.log
 config/database.js
 *~
 nbproject

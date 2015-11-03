@@ -83,7 +83,7 @@
             <div class="panel panel-default">
                 <p class="panel-heading no-collapse">Sign In</p>
                 <div class="panel-body">
-                    <form action="#" method="POST">
+                    <form action="/users/process_authentication" method="POST">
                         <div class="form-group">
                             <label>Username</label>
                             <input type="text" class="form-control span12">
@@ -92,7 +92,7 @@
                             <label>Password</label>
                             <input type="password" class="form-controlspan12 form-control">
                         </div>
-                        <a href="#" class="btn btn-primary pull-right">Sign In</a>
+                        <a href="#" class="btn btn-primary pull-right sign-in">Sign In</a>
                         <div class="clearfix"></div>
                     </form>
                 </div>
@@ -105,11 +105,14 @@
         <script type="text/javascript">
             $("[rel=tooltip]").tooltip();
             $(function () {
-                $('.demo-cancel-click').click(function () {
-                    return false;
+                $('.sign-in').click(function () {
+                    document.forms[0].submit();
                 });
             });
+
+
         </script>
 
 
-    </body></html>
+    </body>
+</html>
