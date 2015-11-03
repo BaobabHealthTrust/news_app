@@ -152,7 +152,6 @@
                             <th>&nbsp;</th>
                             <th>Title</th>
                             <th>Body</th>
-                            <th style="width: 3.5em;"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -161,19 +160,34 @@
                             <td><input type="checkbox" value="<%= news[row].news_id %>" name="news_ids[]"/></td>
                             <td><%= news[row].title %></td>
                             <td><%= news[row].body %></td>
-                            <td>
-                                <a href="#myModal" role="button" data-toggle="modal"><i class="fa fa-trash-o"></i></a>
-                            </td>
                         </tr>
                         <% } %>
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td colspan="4"><a class="btn btn-danger">Delete Selected »</a></td>
+                            <td colspan="4"><a href="#myModal" role="button" data-toggle="modal" class="btn btn-danger">Delete Selected <i class="fa fa-trash-o"></i></a></td>
                         </tr>
                     </tfoot>
                 </table>
 
+                <div class="modal small fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h3 id="myModalLabel">Delete Confirmation</h3>
+                            </div>
+                            <div class="modal-body">
+
+                                <p class="error-text"><i class="fa fa-warning modal-icon"></i>Are you sure you want to delete the selected news item?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                                <button class="btn btn-danger" onclick="deleteSelectedItems()" data-dismiss="modal">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <footer>
                     <hr>
@@ -185,12 +199,31 @@
 
         <script src="lib/bootstrap/js/bootstrap.js"></script>
         <script type="text/javascript">
-            $("[rel=tooltip]").tooltip();
-            $(function () {
-                $('.demo-cancel-click').click(function () {
-                    return false;
-                });
-            });
+                                    $("[rel=tooltip]").tooltip();
+                                    $(function () {
+                                        $('.demo-cancel-click').click(function () {
+                                            return false;
+                                        });
+                                    });
+
+                                    function deleteSelectedItems() {
+                                        var newsIds = [];
+                                        $('input[name="news_ids[]"]:checked').each(function () {
+                                            newsIds.push(this.value);
+                                        });
+                                        console.log(newsIds);
+                                        if (newsIds.length > 0) {
+                                            jQuery.ajax({
+                                                type: "POST",
+                                                url: "/void_news",
+                                                data: "news_ids=" + newsIds,
+                                                success: function () {
+                                                    window.location = location.href;
+                                                }
+
+                                            });
+                                        }
+                                    }
         </script>
 
 

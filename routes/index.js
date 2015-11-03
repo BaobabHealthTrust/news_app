@@ -94,7 +94,10 @@ router.get('/void_news_menu', function (req, res, next) {
 });
 
 router.post('/void_news', function (req, res, next) {
-    /* SAVE EDITED DATA HERE */
+    news_ids = req.body.news_ids.split(",");
+    knex('news').where('news_id', 'in', news_ids).del().then(function (news) {
+        res.send('okay');
+    });
 });
 
 router.get('/view_news_menu', function (req, res, next) {
