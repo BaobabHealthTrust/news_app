@@ -10,14 +10,19 @@ Tracker = model.Tracker;
 /* GET home page. */
 router.get('/', function (req, res, next) {
 
-    knex('news').where({category: 'sports_news'}).count("news_id as sports_count").then(function (sports_total) {
-        sports_count = sports_total[0]["sports_count"];
-        knex('news').where({category: 'local_news'}).count("news_id as local_count").then(function (local_total) {
-            local_count = local_total[0]["local_count"];
-            res.render('index', {sports_count: sports_count, local_count: local_count});
-        });
+    knex('news').where({category: 'sports_news'}).then(function (sports) {
+        sportsNews = sports;
+        knex('news').where({category: 'local_news'}).then(function (local) {
+            localNews = local;
+            knex('news').where({category: 'sports_news'}).count("news_id as sports_count").then(function (sports_total) {
+                sports_count = sports_total[0]["sports_count"];
+                knex('news').where({category: 'local_news'}).count("news_id as local_count").then(function (local_total) {
+                    local_count = local_total[0]["local_count"];
+                    res.render('index', {sports_count: sports_count, local_count: local_count, sportsNews: sportsNews, localNews: localNews});
+                });
+            });
+        })
     });
-
 });
 
 router.get('/sign_in', function (req, res, next) {

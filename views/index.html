@@ -107,7 +107,7 @@
                         <li ><a href="/view_news_menu?category=sports_news"><span class="fa fa-caret-right"></span> View News</a></li>
                     </ul>
                 </li>
-                
+
                 <li><a href="#" data-target=".local-news-menu" class="nav-header" data-toggle="collapse"><i class="fa fa-fw"></i> Local News<i class="fa fa-collapse"></i></a></li>
                 <li>
                     <ul class="local-news-menu nav nav-list collapse in">
@@ -149,42 +149,35 @@
                 <div class="row">
                     <div class="col-sm-6 col-md-6">
                         <div class="panel panel-default">
-                            <div class="panel-heading no-collapse">#Header Here<span class="label label-warning">+10</span></div>
-
+                            <div class="panel-heading no-collapse">Sports<span class="label label-info"><%= sports_count %></span></div>
+                            <table class="table table-bordered table-striped">
+                                <tbody>
+                                    <% for (var row in sportsNews){%>
+                                    <tr>
+                                        <td><%= sportsNews[row]["title"] %></td>
+                                        <td><a class="btn btn-primary" style="float: right;">Read more »</a></td>
+                                    </tr>
+                                    <% } %>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-6">
                         <div class="panel panel-default">
-                            <a href="#widget1container" class="panel-heading" data-toggle="collapse">#Header Here </a>
-                            <div id="widget1container" class="panel-body collapse in">
-
-                            </div>
+                            <div class="panel-heading no-collapse">News<span class="label label-success"><%= local_count %></span></div>
+                            <table class="table table-bordered table-striped">
+                                <tbody>
+                                    <% for (var row in localNews){%>
+                                    <tr>
+                                        <td><%= localNews[row]["title"] %></td>
+                                        <td><a class="btn btn-primary" style="float: right;">Read more »</a></td>
+                                    </tr>
+                                    <% } %>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
-
-                <div class="row">
-                    <div class="col-sm-6 col-md-6">
-                        <div class="panel panel-default"> 
-                            <div class="panel-heading no-collapse">
-                                <span class="panel-icon pull-right">
-                                    <a href="#" class="demo-cancel-click" rel="tooltip" title="Click to refresh"><i class="fa fa-refresh"></i></a>
-                                </span>
-                                #Header Here
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-6">
-                        <div class="panel panel-default">
-                            <a href="#widget2container" class="panel-heading" data-toggle="collapse">#Header Here </a>
-                            <div id="widget2container" class="panel-body collapse in">
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
 
                 <footer>
                     <hr>
