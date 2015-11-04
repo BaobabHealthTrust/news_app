@@ -65,6 +65,12 @@ router.post('/save_news', function (req, res, next) {
     })
 });
 
+router.post('/retrieve_news', function (req, res, next) {
+    news_id = req.body.news_id;
+    knex('news').where({news_id: news_id}).then(function (news) {
+        res.send(news[0]);
+    });
+})
 router.post('/save_category', function (req, res, next) {
 
     name = req.body.name;
