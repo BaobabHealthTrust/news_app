@@ -10,6 +10,11 @@ var Tracker = bookshelf.Model.extend({
     idAttribute: 'tracker_id'
 });
 
-models = {News: News, Tracker: Tracker};
+var Category = bookshelf.Model.extend({
+    tableName: 'category',
+    idAttribute: 'id'
+});
+
+models = {News: News, Tracker: Tracker, Category: Category};
 
 module.exports = models;

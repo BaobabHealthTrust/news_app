@@ -32,10 +32,16 @@ app.use('/add_category_menu/:category?', routes);
 app.use('/save_category', routes);
 app.use('/edit_news_menu/:category?', routes);
 app.use('/edit_my_news/:category?', routes);
+app.use('/edit_category_menu/:category?', routes);
+app.use('/edit_my_category/:category?', routes);
 app.use('/save_edited_news', routes);
+app.use('/save_edited_category', routes);
 app.use('/void_news_menu/:category?', routes);
 app.use('/void_news', routes);
+app.use('/void_category_menu/:category?', routes);
+app.use('/void_category', routes)
 app.use('/view_news_menu/:category?', routes);
+app.use('/view_category_menu/:category', routes);
 app.use('/users', users);
 app.use('/users/process_authentication', users);
 app.use('/users/sign_out', users);

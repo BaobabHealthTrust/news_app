@@ -4,6 +4,7 @@ var model = require('../models/newsFeed');
 var knex = require('../config/bookshelf').knex;
 
 News = model.News;
+Category = model.Category;
 Tracker = model.Tracker;
 
 /* GET home page. */
@@ -44,18 +45,23 @@ router.post('/save_news', function (req, res, next) {
 });
 
 router.post('/save_category', function (req, res, next) {
-    console.log(req.body)
-    category_name = req.body.category_name;
+    
+    name = req.body.name;
     description = req.body.description;
-    day = new Date();
-    console.log("category_name = " + category_name + "\n description = " + description)
+    date = new Date();
+    
     new Category({
-        category_name: category_name,
+        name: name,
         description: description,
         date: date
-    }).save().then(function (category) {
+
+    }).save()
+    .then(function (category) {
         console.log('Record Successfully Saved');
-        res.redirect("/add_category?category=" + category);
+        res.redirect("/add_category_menu?category=" + category);
+    })
+    .catch(function(err){
+        console.log(err.message);
     })
 });
 
@@ -106,6 +112,54 @@ router.get('/view_news_menu', function (req, res, next) {
         res.render('view_news_menu', {newsCategory: newsCategory, category: req.query.category, news: news});
     });
 });
+
+router.get('/edit_category_menu', function (req, res, next) {
+    newsCategory = (req.query.category.replace("_", ' ')).capitalize();
+    knex('category').limit(10).then(function (category) {
+        res.render('edit_category_menu', {newsCategory: newsCategory, category: req.query.category, category: category});
+    });
+});
+
+router.get('/edit_my_category/', function (req, res, next) {
+
+    newsCategory = (req.query.category.replace("_", ' ')).capitalize();
+    knex('category').where({id: req.query.id}).limit(1).then(function (my_category) {
+        res.render('edit_my_category', {newsCategory: newsCategory, category: req.query.category, my_category: my_category[0]});
+    });
+});
+
+router.post('/save_edited_category', function (req, res, next) {
+    id = req.body.id;
+    name = req.body.name;
+    description = req.body.description;
+
+    new Category({id: id}).save({name: name, description: description})
+            .then(function (category) {
+                res.redirect("/edit_category_menu?category=" + category);
+            });
+});
+
+router.get('/view_category_menu', function (req, res, next) {
+    newsCategory = (req.query.category.replace("_", ' ')).capitalize();
+    knex('category').then(function (category) {
+        res.render('view_category_menu', {newsCategory: newsCategory, category: req.query.category, category: category});
+    });
+});
+
+router.get('/void_category_menu', function (req, res, next) {
+    newsCategory = (req.query.category.replace("_", ' ')).capitalize();
+    knex('category').limit(10).then(function (category) {
+        res.render('void_category_menu', {newsCategory: newsCategory, category: req.query.category, category: category});
+    });
+});
+
+router.post('/void_category', function (req, res, next) {
+    news_ids = req.body.news_ids.split(",");
+    knex('category').where('id', 'in', news_ids).del().then(function (category) {
+        res.send('okay');
+    });
+});
+
 
 String.prototype.capitalize = function () {
     return this.toLowerCase().replace(/\b\w/g, function (m) {

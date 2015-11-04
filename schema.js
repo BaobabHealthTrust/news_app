@@ -34,11 +34,11 @@ CREATE TABLE `' + dbconfig.database + '`.`tracker` ( \
 
 connection.query('\
 CREATE TABLE `' + dbconfig.database + '`.`category` ( \
-    `category_id` INT UNSIGNED NOT NULL AUTO_INCREMENT, \
-    `category_name` VARCHAR(100) NOT NULL, \
-    `description` CHAR(100) NOT NULL, \
+    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT, \
+    `name` VARCHAR(100) NOT NULL, \
+    `description` CHAR(255) NOT NULL, \
     `date` DATE NOT NULL, \
-     PRIMARY KEY (`category_id`)\
+     PRIMARY KEY (`id`)\
 )');
 
 connection.query('\
