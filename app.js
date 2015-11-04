@@ -39,6 +39,7 @@ app.use('/save_edited_news', routes);
 app.use('/save_edited_category', routes);
 app.use('/void_news_menu/:category?', routes);
 app.use('/void_news', routes);
+app.use('/retrieve_news', routes);
 app.use('/void_category_menu/:category?', routes);
 app.use('/void_category', routes)
 app.use('/view_news_menu/:category?', routes);

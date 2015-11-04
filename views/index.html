@@ -15,9 +15,24 @@
 
         <script src="lib/jQuery-Knob/js/jquery.knob.js" type="text/javascript"></script>
         <script type="text/javascript">
-            $(function () {
-                $(".knob").knob();
-            });
+                    $(function () {
+                    $(".knob").knob();
+                    });
+                    function showNews(newsId) {
+                        jQuery.ajax({
+                            type: "POST",
+                                    url: "/retrieve_news",
+                                    data: "news_id=" + newsId,
+                                    success: function (news) {
+                                        newsTitle = news["title"];
+                                        newsBody = news["body"];
+                                        document.getElementById("myModalLabel").innerHTML = newsTitle;
+                                        document.getElementById("myModalBody").innerHTML = newsBody;
+                                        $('#myModal').modal('show');
+                                    }
+
+                            });
+                    }
         </script>
 
 
@@ -28,23 +43,34 @@
             .navbar-default .navbar-brand, .navbar-default .navbar-brand:hover { 
                 color: #fff;
             }
+            .modal-content{
+                width: 600px;
+            }
+
+            #myModalLabel{
+                font-size: 14pt;
+                font-weight: bold;
+            }
+
+            .modal-body{
+                font-size: 12pt;
+            }
+
         </style>
     </head>
     <body class=" theme-blue">
 
         <script type="text/javascript">
             $(function () {
-                $('[data-popover="true"]').popover({html: true});
-            });
-        </script>
+            $('[data-popover="true"]').popover({html: true});
+            });</script>
 
         <script type="text/javascript">
-            $(function () {
-                var uls = $('.sidebar-nav > ul > *').clone();
-                uls.addClass('visible-xs');
-                $('#main-menu').append(uls.clone());
-            });
-        </script>
+                    $(function () {
+                    var uls = $('.sidebar-nav > ul > *').clone();
+                            uls.addClass('visible-xs');
+                            $('#main-menu').append(uls.clone());
+                    });</script>
 
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
@@ -133,8 +159,8 @@
         <div class="content">
             <div class="header">
                 <div class="stats">
-                    <p class="stat"><span class="label label-info">5</span> Sports News</p>
-                    <p class="stat"><span class="label label-success">27</span> Local News</p>
+                    <p class="stat"><span class="label label-info"><%= sports_count %></span> Sports News</p>
+                    <p class="stat"><span class="label label-success"><%= local_count %></span> Local News</p>
                 </div>
 
                 <h1 class="page-title">Dashboard</h1>
@@ -149,42 +175,52 @@
                 <div class="row">
                     <div class="col-sm-6 col-md-6">
                         <div class="panel panel-default">
-                            <div class="panel-heading no-collapse">#Header Here<span class="label label-warning">+10</span></div>
-
+                            <div class="panel-heading no-collapse">Sports<span class="label label-info"><%= sports_count %></span></div>
+                            <table class="table table-bordered table-striped">
+                                <tbody>
+                                    <% for (var row in sportsNews){%>
+                                    <tr>
+                                        <td><%= sportsNews[row]["title"] %></td>
+                                        <td style="width: 100px;"><a class="btn btn-primary" onclick="showNews(<%= sportsNews[row]['news_id'] %> );" style="float: right;">Read more »</a></td>
+                                    </tr>
+                                    <% } %>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-6">
                         <div class="panel panel-default">
-                            <a href="#widget1container" class="panel-heading" data-toggle="collapse">#Header Here </a>
-                            <div id="widget1container" class="panel-body collapse in">
-
-                            </div>
+                            <div class="panel-heading no-collapse">News<span class="label label-success"><%= local_count %></span></div>
+                            <table class="table table-bordered table-striped">
+                                <tbody>
+                                    <% for (var row in localNews){%>
+                                    <tr>
+                                        <td><%= localNews[row]["title"] %></td>
+                                        <td style="width: 100px;"><a class="btn btn-primary" onclick="showNews(<%= localNews[row]['news_id'] %> );" style="float: right;">Read more »</a></td>
+                                    </tr>
+                                    <% } %>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-sm-6 col-md-6">
-                        <div class="panel panel-default"> 
-                            <div class="panel-heading no-collapse">
-                                <span class="panel-icon pull-right">
-                                    <a href="#" class="demo-cancel-click" rel="tooltip" title="Click to refresh"><i class="fa fa-refresh"></i></a>
-                                </span>
-                                #Header Here
+                <div class="modal small fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h3 id="myModalLabel">News</h3>
                             </div>
-
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-6">
-                        <div class="panel panel-default">
-                            <a href="#widget2container" class="panel-heading" data-toggle="collapse">#Header Here </a>
-                            <div id="widget2container" class="panel-body collapse in">
-
+                            <div class="modal-body">
+                                <p id='myModalBody'>Your news goes here</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-danger" data-dismiss="modal">Done</button>
                             </div>
                         </div>
                     </div>
                 </div>
-
 
                 <footer>
                     <hr>
@@ -196,12 +232,9 @@
 
         <script src="lib/bootstrap/js/bootstrap.js"></script>
         <script type="text/javascript">
-            $("[rel=tooltip]").tooltip();
-            $(function () {
-                $('.demo-cancel-click').click(function () {
-                    return false;
-                });
-            });
+
+
+
         </script>
 
 
