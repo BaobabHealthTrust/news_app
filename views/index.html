@@ -28,6 +28,19 @@
             .navbar-default .navbar-brand, .navbar-default .navbar-brand:hover { 
                 color: #fff;
             }
+            .modal-content{
+                width: 600px;
+            }
+
+            #myModalLabel{
+                font-size: 14pt;
+                font-weight: bold;
+            }
+
+            .modal-body{
+                font-size: 12pt;
+            }
+
         </style>
     </head>
     <body class=" theme-blue">
@@ -155,7 +168,7 @@
                                     <% for (var row in sportsNews){%>
                                     <tr>
                                         <td><%= sportsNews[row]["title"] %></td>
-                                        <td><a class="btn btn-primary" style="float: right;">Read more »</a></td>
+                                        <td style="width: 100px;"><a class="btn btn-primary" onclick="showNews();" style="float: right;">Read more »</a></td>
                                     </tr>
                                     <% } %>
                                 </tbody>
@@ -170,11 +183,28 @@
                                     <% for (var row in localNews){%>
                                     <tr>
                                         <td><%= localNews[row]["title"] %></td>
-                                        <td><a class="btn btn-primary" style="float: right;">Read more »</a></td>
+                                        <td style="width: 100px;"><a class="btn btn-primary" onclick="showNews();" style="float: right;">Read more »</a></td>
                                     </tr>
                                     <% } %>
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal small fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h3 id="myModalLabel">News</h3>
+                            </div>
+                            <div class="modal-body">
+                                <p>Your news goes here</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-danger" data-dismiss="modal">Done</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -195,6 +225,10 @@
                     return false;
                 });
             });
+
+            function showNews() {
+                $('#myModal').modal('show');
+            }
         </script>
 
 
