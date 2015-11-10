@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head>
         <meta charset="utf-8">
-        <title>News Feed</title>
+        <title>Add User</title>
         <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="">
@@ -81,9 +81,9 @@
 
         <div class="dialog">
             <div class="panel panel-default">
-                <p class="panel-heading no-collapse">Sign In</p>
+                <p class="panel-heading no-collapse">Add User</p>
                 <div class="panel-body">
-                    <form action="/users/process_authentication" method="POST">
+                    <form action="/signup" method="POST">
                         <div class="form-group">
 
                             <% if(typeof(errorMessage) !== 'undefined') {%>
@@ -97,21 +97,16 @@
                             <label>Password</label>
                             <input type="password" name="password" class="form-controlspan12 form-control" required="true">
                         </div>
-                        
+                        <input type="submit" name="add_user" id="add_user" value="Add User" class="btn btn-primary pull-right"/>
+                    
                         <div class="clearfix"></div>
                     </form>
                 </div>
             </div>
         </div>
 
-        <div class="btn-toolbar list-toolbar">
-            <button onclick="submitNewsForm();" class="btn btn-primary"><i class="fa fa-save"></i>Sign Up</button>
-            <a href="/" class="btn btn-danger">Cancel</a>
-        </div>
-
 
         <script src="lib/bootstrap/js/bootstrap.js"></script>
-        <!--
         <script type="text/javascript">
             $("[rel=tooltip]").tooltip();
             $(function () {
@@ -122,16 +117,6 @@
 
 
         </script>
-        -->
-        <script type="text/javascript">
-                                $("[rel=tooltip]").tooltip();
-
-                                function submitNewsForm() {
-                                    document.forms[0].submit();
-                                }
-
-        </script>
-
-
+        
     </body>
 </html>

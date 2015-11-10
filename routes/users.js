@@ -1,5 +1,10 @@
 var express = require('express');
 var router = express.Router();
+var model = require('../models/newsFeed');
+var knex = require('../config/bookshelf').knex;
+
+
+/**************************************************************/
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
@@ -17,4 +22,5 @@ router.get('/sign_out', function (request, response) {
     response.redirect('/sign_in');
 });
 
+// export functions
 module.exports = router;

@@ -44,6 +44,8 @@ CREATE TABLE `' + dbconfig.database + '`.`category` ( \
 connection.query('\
 CREATE TABLE `' + dbconfig.database + '`.`user` ( \
     `user_id` INT UNSIGNED NOT NULL AUTO_INCREMENT, \
+    `fname` VARCHAR(100) NOT NULL, \
+    `lname` VARCHAR(100) NOT NULL, \
     `username` VARCHAR(100) NOT NULL, \
     `password` CHAR(100) NOT NULL, \
     `date` DATE NOT NULL, \

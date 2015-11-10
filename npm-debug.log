@@ -23,7 +23,7 @@
 15 verbose stack     at Process.ChildProcess._handle.onexit (child_process.js:833:5)
 16 verbose pkgid News-Feed@0.0.0
 17 verbose cwd /var/www/news_app-2
-18 error Linux 3.13.0-66-generic
+18 error Linux 3.13.0-67-generic
 19 error argv "node" "/usr/bin/npm" "start"
 20 error node v0.10.37
 21 error npm  v3.3.6
