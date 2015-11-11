@@ -82,14 +82,17 @@
                 <ul id="main-menu" class="nav navbar-nav navbar-right">
                     <li class="dropdown hidden-xs">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <span class="glyphicon glyphicon-user padding-right-small" style="position:relative;top: 3px;"></span> Jack Smith
+                            <span class="glyphicon glyphicon-user padding-right-small" style="position:relative;top: 3px;"></span> <%= user.username %>
                             <i class="fa fa-caret-down"></i>
                         </a>
 
                         <ul class="dropdown-menu">
                             <li><a href="#">My Account</a></li>
                             <li class="divider"></li>
-                            <li><a tabindex="-1" href="/users/sign_out">Logout</a></li>
+                            <li><a tabindex="-1" href="/add_user_menu">Add User</a></li>
+                            <li><a tabindex="-1" href="/view_user_menu">View Users</a></li>
+                            <li><a tabindex="-1" href="/reset_password_view?user_id=<%= user.user_id %>">Reset Password</a></li>
+                            <li><a tabindex="-1" href="/sign_out">Logout</a></li>
                         </ul>
                     </li>
                 </ul>
