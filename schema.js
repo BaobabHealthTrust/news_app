@@ -14,7 +14,7 @@ connection.query('\
 CREATE TABLE `' + dbconfig.database + '`.`news` ( \
     `news_id` INT UNSIGNED NOT NULL AUTO_INCREMENT, \
     `title` CHAR(255) NOT NULL, \
-    `body` CHAR(255) NOT NULL, \
+    `body` LONGTEXT NOT NULL, \
     `category` CHAR(60) NOT NULL, \
     `date` DATE NOT NULL, \
     `created_at` TIMESTAMP NOT NULL, \
