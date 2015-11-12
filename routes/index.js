@@ -2,9 +2,9 @@ var express = require('express');
 var router = express.Router();
 var model = require('../models/newsFeed');
 var knex = require('../config/bookshelf').knex;
-
 var passport = require('passport');
 var bcrypt = require('bcrypt-nodejs');
+var loadUser = require('../force_login');
 
 // vendor libraries
 
@@ -14,31 +14,16 @@ Tracker = model.Tracker;
 User = model.User;
 
 /* GET home page. */
-router.get('/', function (req, res, next) {
-
-  if(!req.isAuthenticated()) {
-      res.redirect('/sign_in');
-   } else {
-
-      var user = req.user;
-
-      if(user !== undefined) {
-         user = user.toJSON();
-      }
-      res.render('index', {title: 'Home', user: user});
-   }
-    
+router.get('/', loadUser, function (req, res, next) {
+    res.redirect('/index');
 });
 
 /***********************************************************************************************/
 // GET index
-router.get('/index', function(req, res, next){
-  var user = req.user;
+router.get('/index', loadUser, function (req, res, next) {
+    var user = req.user.toJSON();
 
-      if(user !== undefined) {
-         user = user.toJSON();
-
-  knex('news').where({category: 'sports_news'}).then(function (sports) {
+    knex('news').where({category: 'sports_news'}).then(function (sports) {
         sportsNews = sports;
         knex('news').where({category: 'local_news'}).then(function (local) {
             localNews = local;
@@ -50,50 +35,48 @@ router.get('/index', function(req, res, next){
                 });
             });
         })
-    });}
- }); 
+    });
+});
 
 // sign in
 // GET
 
 router.get('/sign_in', function (req, res, next) {
-    if(req.isAuthenticated()) res.redirect('/');
-   res.render('sign_in', {title: 'Sign In'});
+    if (req.isAuthenticated())
+        res.redirect('/');
+    res.render('sign_in', {title: 'Sign In'});
 });
 
 // sign in
 // POST
 
 router.post('/signin', function (req, res, next) {
-    passport.authenticate('local', { successRedirect: '/',
-                          failureRedirect: '/sign_in'}, function(err, user, info) {
-      if(err) {
-         return res.render('sign_in', {title: 'Sign In', errorMessage: err.message});
-      } 
-
-      if(!user) {
-         return res.render('sign_in', {title: 'Sign In', errorMessage: info.message});
-      }
-      return req.logIn(user, function(err) {
-         if(err) {
+    passport.authenticate('local', {successRedirect: '/',
+        failureRedirect: '/sign_in'}, function (err, user, info) {
+        if (err) {
             return res.render('sign_in', {title: 'Sign In', errorMessage: err.message});
-         } else {
-            return res.redirect('/index');
-         }
-      });
-   })(req, res, next);
+        }
+
+        if (!user) {
+            return res.render('sign_in', {title: 'Sign In', errorMessage: info.message});
+        }
+        return req.logIn(user, function (err) {
+            if (err) {
+                return res.render('sign_in', {title: 'Sign In', errorMessage: err.message});
+            } else {
+                return res.redirect('/index');
+            }
+        });
+    })(req, res, next);
 });
 
 // sign up
 // GET
 
-router.get('/add_user_menu', function (req, res, next) {
-   var user = req.user;
+router.get('/add_user_menu', loadUser, function (req, res, next) {
+    var user = req.user.toJSON();
 
-      if(user !== undefined) {
-         user = user.toJSON();
-
-  knex('news').where({category: 'sports_news'}).then(function (sports) {
+    knex('news').where({category: 'sports_news'}).then(function (sports) {
         sportsNews = sports;
         knex('news').where({category: 'local_news'}).then(function (local) {
             localNews = local;
@@ -105,55 +88,53 @@ router.get('/add_user_menu', function (req, res, next) {
                 });
             });
         })
-    });}
+    });
 });
 
 
 // sign up
 // POST
-router.post('/add_user', function (req, res, next){
-  var user = req.body;
-   var usernamePromise = null;
-   usernamePromise = new model.User({username: user.username}).fetch();
+router.post('/add_user', function (req, res, next) {
+    var user = req.body;
+    var usernamePromise = null;
+    usernamePromise = new model.User({username: user.username}).fetch();
 
-   return usernamePromise.then(function(model) {
-      if(model) {
-         res.render('add_user_menu', {title: 'Add User', errorMessage: 'username already exists'});
-      } else {
-         //****************************************************//
-         // More Validation to be added
-         //****************************************************//
-         var password = user.password;
-         var hash = bcrypt.hashSync(password);
+    return usernamePromise.then(function (model) {
+        if (model) {
+            res.render('add_user_menu', {title: 'Add User', errorMessage: 'username already exists'});
+        } else {
+            //****************************************************//
+            // More Validation to be added
+            //****************************************************//
+            var password = user.password;
+            var hash = bcrypt.hashSync(password);
 
-         new User({
-              fname: user.first_name,
-              lname: user.last_name,
-              username: user.username, 
-              password: hash
-            }).save().then(function(user) {
-            // sign in the newly registered user
-            return res.redirect('/view_user_menu');
-         });  
-      }
-   }); (req, res, next);
+            new User({
+                fname: user.first_name,
+                lname: user.last_name,
+                username: user.username,
+                password: hash
+            }).save().then(function (user) {
+                // sign in the newly registered user
+                return res.redirect('/view_user_menu');
+            });
+        }
+    });
+    (req, res, next);
 });
 
 // sign out
-router.get('/sign_out', function (req, res, next){
-  if(!req.isAuthenticated()) {
-      notFound404(req, res, next);
-   } else {
-      req.logout();
-      res.redirect('/sign_in');
-   }
+router.get('/sign_out', function (req, res, next) {
+    if (!req.isAuthenticated()) {
+        notFound404(req, res, next);
+    } else {
+        req.logout();
+        res.redirect('/sign_in');
+    }
 });
 
-router.get('/view_user_menu', function (req, res, next) {
-  var user = req.user;
-
-      if(user !== undefined) {
-         user = user.toJSON();
+router.get('/view_user_menu', loadUser, function (req, res, next) {
+    var user = req.user.toJSON();
 
     knex('news').where({category: 'sports_news'}).count("news_id as sports_count").then(function (sports_total) {
         sports_count = sports_total[0]["sports_count"];
@@ -163,15 +144,12 @@ router.get('/view_user_menu', function (req, res, next) {
                 res.render('view_user_menu', {user: user, category: req.query.category, sports_count: sports_count, local_count: local_count, user: user});
             });
         });
-    });}
+    });
+
 });
 
-router.get('/edit_this_user/', function (req, res, next) {
-  var user = req.user;
-
-      if(user !== undefined) {
-         user = user.toJSON();
-    
+router.get('/edit_this_user/', loadUser, function (req, res, next) {
+    var user = req.user.toJSON();
     knex('news').where({category: 'sports_news'}).count("news_id as sports_count").then(function (sports_total) {
         sports_count = sports_total[0]["sports_count"];
         knex('news').where({category: 'local_news'}).count("news_id as local_count").then(function (local_total) {
@@ -180,7 +158,7 @@ router.get('/edit_this_user/', function (req, res, next) {
                 res.render('edit_this_user', {this_user: this_user[0], sports_count: sports_count, local_count: local_count, user: user});
             });
         });
-    });}
+    });
 });
 
 router.post('/save_edited_user', function (req, res, next) {
@@ -195,12 +173,9 @@ router.post('/save_edited_user', function (req, res, next) {
             });
 });
 
-router.get('/reset_password_view/', function (req, res, next) {
-  var user = req.user;
+router.get('/reset_password_view/', loadUser, function (req, res, next) {
+    var user = req.user.toJSON();
 
-      if(user !== undefined) {
-         user = user.toJSON();
-    
     knex('news').where({category: 'sports_news'}).count("news_id as sports_count").then(function (sports_total) {
         sports_count = sports_total[0]["sports_count"];
         knex('news').where({category: 'local_news'}).count("news_id as local_count").then(function (local_total) {
@@ -209,55 +184,56 @@ router.get('/reset_password_view/', function (req, res, next) {
                 res.render('reset_password_view', {this_user: this_user[0], sports_count: sports_count, local_count: local_count, title: 'Reset Password', user: user});
             });
         });
-    });}
+    });
 });
 
 // reset_password
 // POST
-router.post('/reset_password', function (req, res, next){
-      var user = req.body;
-      var password = user.password;
-      new User({user_id: user.user_id}).fetch().then(function(data) {
-      var users = data;
-       
-        if(!bcrypt.compareSync(password, users.password)) {
-         res.render('reset_password_view', {title: users.password, errorMessage: 'The current password doesnt match', this_user: users});
-      } else {
-         //****************************************************//
-         // more Validation to be added
-         //****************************************************//
+router.post('/reset_password', function (req, res, next) {
+    var user = req.body;
+    var password = user.password;
+    new User({user_id: user.user_id}).fetch().then(function (data) {
+        var users = data;
 
-         if(user.new_password !== user.confirm_password){
-         res.render('reset_password_view', {title: 'Reset Password', errorMessage: 'Password mismatch. Make sure the New password and confirm password are the same!', this_user: users});
-         } else{
+        if (!bcrypt.compareSync(password, users.password)) {
+            res.render('reset_password_view', {title: users.password, errorMessage: 'The current password doesnt match', this_user: users});
+        } else {
+            //****************************************************//
+            // more Validation to be added
+            //****************************************************//
 
-         var hash = bcrypt.hashSync(user.new_password);
-         user_id = req.body.user_id;
+            if (user.new_password !== user.confirm_password) {
+                res.render('reset_password_view', {title: 'Reset Password', errorMessage: 'Password mismatch. Make sure the New password and confirm password are the same!', this_user: users});
+            } else {
 
-         new User({user_id: user_id}).save({password: hash})
-            .then(function (user) {
-            return res.redirect("/view_user_menu");
-            });
-         };  
-      
-};
-   }); (req, res, next);
+                var hash = bcrypt.hashSync(user.new_password);
+                user_id = req.body.user_id;
+
+                new User({user_id: user_id}).save({password: hash})
+                        .then(function (user) {
+                            return res.redirect("/view_user_menu");
+                        });
+            }
+            ;
+
+        }
+        ;
+    });
+    (req, res, next);
 });
 
 
 // 404 not found
-router.get('/notFound404', function (req, res, next){
-  res.status(404);
-   res.render('404', {title: '404 Not Found'});
+router.get('/notFound404', function (req, res, next) {
+    res.status(404);
+    res.render('404', {title: '404 Not Found'});
 });
 
 /***********************************************************************************************/
 
-router.get('/add_news_menu', function (req, res, next) {
-  var user = req.user;
+router.get('/add_news_menu', loadUser, function (req, res, next) {
+    var user = req.user.toJSON();
 
-      if(user !== undefined) {
-         user = user.toJSON();
     newsCategory = (req.query.category.replace("_", ' ')).capitalize();
     knex('news').where({category: 'sports_news'}).count("news_id as sports_count").then(function (sports_total) {
         sports_count = sports_total[0]["sports_count"];
@@ -267,10 +243,9 @@ router.get('/add_news_menu', function (req, res, next) {
             res.render('add_news_menu', {newsCategory: newsCategory, category: req.query.category, sports_count: sports_count, local_count: local_count, user: user});
         });
     });
-  }
 });
 
-router.get('/add_category_menu', function (req, res, next) {
+router.get('/add_category_menu', loadUser, function (req, res, next) {
     newsCategory = (req.query.category.replace("_", ' ')).capitalize();
     res.render('add_category_menu', {newsCategory: newsCategory, category: req.query.category});
 });
@@ -320,11 +295,9 @@ router.post('/save_category', function (req, res, next) {
             })
 });
 
-router.get('/edit_news_menu', function (req, res, next) {
-  var user = req.user;
+router.get('/edit_news_menu', loadUser, function (req, res, next) {
+    var user = req.user.toJSON();
 
-      if(user !== undefined) {
-         user = user.toJSON();
     newsCategory = (req.query.category.replace("_", ' ')).capitalize();
 
     knex('news').where({category: 'sports_news'}).count("news_id as sports_count").then(function (sports_total) {
@@ -338,15 +311,11 @@ router.get('/edit_news_menu', function (req, res, next) {
         });
     });
 
-  }
-
 });
 
-router.get('/edit_my_news/', function (req, res, next) {
-  var user = req.user;
+router.get('/edit_my_news/', loadUser, function (req, res, next) {
+    var user = req.user.toJSON();
 
-      if(user !== undefined) {
-         user = user.toJSON();
     newsCategory = (req.query.category.replace("_", ' ')).capitalize();
     knex('news').where({category: 'sports_news'}).count("news_id as sports_count").then(function (sports_total) {
         sports_count = sports_total[0]["sports_count"];
@@ -356,7 +325,8 @@ router.get('/edit_my_news/', function (req, res, next) {
                 res.render('edit_my_news', {newsCategory: newsCategory, category: req.query.category, my_news: my_news[0], sports_count: sports_count, local_count: local_count, user: user});
             });
         });
-    });}
+    });
+
 });
 
 router.post('/save_edited_news', function (req, res, next) {
@@ -371,11 +341,9 @@ router.post('/save_edited_news', function (req, res, next) {
             });
 });
 
-router.get('/void_news_menu', function (req, res, next) {
-  var user = req.user;
+router.get('/void_news_menu', loadUser, function (req, res, next) {
+    var user = req.user.toJSON();
 
-      if(user !== undefined) {
-         user = user.toJSON();
     newsCategory = (req.query.category.replace("_", ' ')).capitalize();
     knex('news').where({category: 'sports_news'}).count("news_id as sports_count").then(function (sports_total) {
         sports_count = sports_total[0]["sports_count"];
@@ -385,7 +353,7 @@ router.get('/void_news_menu', function (req, res, next) {
                 res.render('void_news_menu', {newsCategory: newsCategory, category: req.query.category, news: news, sports_count: sports_count, local_count: local_count, user: user});
             });
         });
-    });}
+    });
 });
 
 router.post('/void_news', function (req, res, next) {
@@ -395,11 +363,9 @@ router.post('/void_news', function (req, res, next) {
     });
 });
 
-router.get('/view_news_menu', function (req, res, next) {
-  var user = req.user;
+router.get('/view_news_menu', loadUser, function (req, res, next) {
+    var user = req.user.toJSON();
 
-      if(user !== undefined) {
-         user = user.toJSON();
     newsCategory = (req.query.category.replace("_", ' ')).capitalize();
     knex('news').where({category: 'sports_news'}).count("news_id as sports_count").then(function (sports_total) {
         sports_count = sports_total[0]["sports_count"];
@@ -409,17 +375,17 @@ router.get('/view_news_menu', function (req, res, next) {
                 res.render('view_news_menu', {newsCategory: newsCategory, category: req.query.category, news: news, sports_count: sports_count, local_count: local_count, user: user});
             });
         });
-    });}
+    });
 });
 
-router.get('/edit_category_menu', function (req, res, next) {
+router.get('/edit_category_menu', loadUser, function (req, res, next) {
     newsCategory = (req.query.category.replace("_", ' ')).capitalize();
     knex('category').limit(10).then(function (category) {
         res.render('edit_category_menu', {newsCategory: newsCategory, category: req.query.category, category: category});
     });
 });
 
-router.get('/edit_my_category/', function (req, res, next) {
+router.get('/edit_my_category/', loadUser, function (req, res, next) {
 
     newsCategory = (req.query.category.replace("_", ' ')).capitalize();
     knex('category').where({id: req.query.id}).limit(1).then(function (my_category) {
@@ -438,7 +404,7 @@ router.post('/save_edited_category', function (req, res, next) {
             });
 });
 
-router.get('/view_category_menu', function (req, res, next) {
+router.get('/view_category_menu', loadUser, function (req, res, next) {
     newsCategory = (req.query.category.replace("_", ' ')).capitalize();
     knex('category').then(function (category) {
         res.render('view_category_menu', {newsCategory: newsCategory, category: req.query.category, category: category});
