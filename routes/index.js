@@ -155,7 +155,7 @@ router.get('/edit_this_user/', loadUser, function (req, res, next) {
         knex('news').where({category: 'local_news'}).count("news_id as local_count").then(function (local_total) {
             local_count = local_total[0]["local_count"];
             knex('user').where({user_id: req.query.user_id}).limit(1).then(function (this_user) {
-                res.render('edit_this_user', {this_user: this_user[0], sports_count: sports_count, local_count: local_count, user: user});
+                res.render('edit_this_user', {this_user: this_user[0], sports_count: sports_count, local_count: local_count, user: user, title: 'Edit User'});
             });
         });
     });
@@ -181,7 +181,7 @@ router.get('/reset_password_view/', loadUser, function (req, res, next) {
         knex('news').where({category: 'local_news'}).count("news_id as local_count").then(function (local_total) {
             local_count = local_total[0]["local_count"];
             knex('user').where({user_id: req.query.user_id}).limit(1).then(function (this_user) {
-                res.render('reset_password_view', {this_user: this_user[0], sports_count: sports_count, local_count: local_count, title: 'Reset Password', user: user});
+                res.render('reset_password_view', {this_user: this_user[0], sports_count: sports_count, local_count: local_count, title: 'Change Password', user: user});
             });
         });
     });

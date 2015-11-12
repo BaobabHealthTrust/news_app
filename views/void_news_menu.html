@@ -90,7 +90,7 @@
                             <li class="divider"></li>
                             <li><a tabindex="-1" href="/add_user_menu">Add User</a></li>
                             <li><a tabindex="-1" href="/view_user_menu">View Users</a></li>
-                            <li><a tabindex="-1" href="/reset_password_view?user_id=<%= user.user_id %>">Reset Password</a></li>
+                            <li><a tabindex="-1" href="/reset_password_view?user_id=<%= user.user_id %>">Change Password</a></li>
                             <li><a tabindex="-1" href="/sign_out">Logout</a></li>
                         </ul>
                     </li>
@@ -163,7 +163,9 @@
                         <tr>
                             <td><input type="checkbox" value="<%= news[row].news_id %>" name="news_ids[]"/></td>
                             <td><%= news[row].title %></td>
-                            <td><%= news[row].body %></td>
+                            <td> <div class="myclass"> <%= news[row].body %></div>
+                                
+                                  </td>
                         </tr>
                         <% } %>
                     </tbody>
@@ -229,6 +231,15 @@
                                         }
                                     }
         </script>
+<script type="text/javascript">
+        var i;
+var divs = document.getElementsByTagName('div');
+for(i=0;i<divs.length;i++) {
+  if(divs[i].className == 'myclass') {
+    divs[i].innerHTML = divs[i].innerHTML.substring(0,150);
+  }
+}
+                                </script>
 
 
     </body></html>

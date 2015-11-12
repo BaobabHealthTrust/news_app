@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head>
         <meta charset="utf-8">
-        <title>Add News Menu</title>
+        <title>Add User Menu</title>
         <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="">
@@ -91,7 +91,7 @@
                             <li class="divider"></li>
                             <li><a tabindex="-1" href="/add_user_menu">Add User</a></li>
                             <li><a tabindex="-1" href="/view_user_menu">View Users</a></li>
-                            <li><a tabindex="-1" href="/reset_password_view?user_id=<%= user.user_id %>">Reset Password</a></li>
+                            <li><a tabindex="-1" href="/reset_password_view?user_id=<%= user.user_id %>">Change Password</a></li>
                             <li><a tabindex="-1" href="/sign_out">Logout</a></li>
                         </ul>
                     </li>
@@ -142,7 +142,7 @@
                     <p class="stat"><span class="label label-success"><%= local_count %></span> Local News</p>
                 </div>
 
-                <h1 class="page-title"><%#= newsCategory %></h1>
+                <h1 class="page-title"><%= title %></h1>
                 <ul class="breadcrumb">
                     <li><a href="/">Home</a> </li>
                     <li class="active">Add News</li>
