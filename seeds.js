@@ -12,8 +12,9 @@ User = model.User;
         new User({
               fname: 'Administrator',
               lname: 'Administrator',
-              username: 'Admin', 
+              username: 'admin', 
               password: hash
-            }).save();
-
-        console.log('Default user successfully set');
+            }).save().then(function(){
+            	console.log('Default user successfully set');
+            	process.exit(code=0);
+            });

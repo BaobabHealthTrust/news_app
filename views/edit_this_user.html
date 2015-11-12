@@ -158,18 +158,18 @@
                                 <form id="tab" class="news-form" action="/save_edited_user" method="POST">
                                     <div class="form-group">
                                         <label>First Name</label>
-                                        <input type="text" value="<%= this_user.fname %>" name="first_name" class="form-control">
+                                        <input type="text" value="<%= this_user.fname %>" name="first_name" class="form-control" required="true">
                                     </div>
 
 
                                     <div class="form-group">
                                         <label>Lastname</label>
-                                        <input type="text" value="<%= this_user.lname %>" name="last_name" class="form-control">
+                                        <input type="text" value="<%= this_user.lname %>" name="last_name" class="form-control" required="true">
                                     </div>
 
                                     <div class="form-group">
                                         <label>Username</label>
-                                        <input type="text" value="<%= this_user.username %>" name="username" class="form-control">
+                                        <input type="text" value="<%= this_user.username %>" name="username" class="form-control" required="true">
                                     </div>
 
                                     <input type="hidden" value="<%= this_user.user_id %>" name="user_id">
