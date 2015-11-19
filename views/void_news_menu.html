@@ -162,10 +162,8 @@
                         <% for (var row in news){ %>
                         <tr>
                             <td><input type="checkbox" value="<%= news[row].news_id %>" name="news_ids[]"/></td>
-                            <td><%= news[row].title %></td>
-                            <td> 
-                                <div class="wordLimit"> <%= news[row].body %></div>                          
-                            </td>
+                            <td> <b> <%= news[row].title %> </b> </td>
+                            <td> <div class="wordLimit"><%= news[row].body %></div> </td>
                         </tr>
                         <% } %>
                     </tbody>
@@ -232,18 +230,20 @@
                                     }
         </script>
 
-<script type="text/javascript">
-    $ ("div.wordLimit").each( function () {
-    var trimmed = $(this).text().substr(0, 200).lastIndexOf(" ");
-    var totalLength = trimmed.length;   
-    var eltexTo = $(this).text();    
-    var title = eltexTo;
-    var shortText = title.trim().substring(0, 150).split(" ").slice(0, totalLength).join(" ") + "...";
-    $(this).text(shortText); 
-});
+        <script type="text/javascript">
 
-</script>
 
+                                function cut(n) {
+                                    return function textCutter(i, text) {
+                                        var short = text.substr(0, n);
+                                        if (/^\S/.test(text.substr(n)))
+                                            return short.replace(/\s+\S*$/, "...");
+                                        return short;
+                                    };
+                                }
+                                $ ('div.wordLimit').text(cut(150));
+
+        </script>
 
 
 </body></html>

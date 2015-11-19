@@ -164,8 +164,8 @@
                         <% for (var row in news){ %>
                         <tr>
                             <td style="font-weight: bold;"><%= count %>.</td>
-                            <td><%= news[row].title %></td>
-                            <td><%= news[row].body %></td>
+                            <td> <b> <%= news[row].title %> </b> </td>
+                            <td align="justify"><%= news[row].body %></td>
                             <td><a href="/edit_my_news?category=<%= category %>&news_id=<%= news[row].news_id %>"><i class="fa fa-pencil"></i></a></td>
                         </tr>
                         <% count = count + 1 %>

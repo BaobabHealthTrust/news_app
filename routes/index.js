@@ -140,8 +140,8 @@ router.get('/view_user_menu', loadUser, function (req, res, next) {
         sports_count = sports_total[0]["sports_count"];
         knex('news').where({category: 'local_news'}).count("news_id as local_count").then(function (local_total) {
             local_count = local_total[0]["local_count"];
-            knex('user').limit(10).then(function (user) {
-                res.render('view_user_menu', {user: user, category: req.query.category, sports_count: sports_count, local_count: local_count, user: user});
+            knex('user').then(function (user) {
+                res.render('view_user_menu', {category: req.query.category, sports_count: sports_count, local_count: local_count, user: user});
             });
         });
     });
@@ -207,7 +207,7 @@ router.post('/reset_password', function (req, res, next) {
                 var confirm_password = req.body.confirm_password;
 
                 if (new_password !== confirm_password) {
-                    res.render('reset_password_view', {title: 'Reset Password', errorMessage: 'Password mismatch. Make sure the New password and confirm password are the same!', this_user: user, user: user});
+                    res.render('reset_password_view', {title: 'Change Password', errorMessage: 'Password mismatch. Make sure the New password and confirm password are the same!', this_user: user, user: user});
             } else {
 
                 var hash = bcrypt.hashSync(new_password);

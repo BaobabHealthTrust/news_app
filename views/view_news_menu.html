@@ -162,8 +162,8 @@
                         <% for (var row in news){ %>
                         <tr>
                             <td style="font-weight: bold;"><%= count %>.</td>
-                            <td><%= news[row].title %></td>
-                            <td><%= news[row].body %></td>
+                            <td> <b><%= news[row].title %> </b></td>
+                            <td align="justify"><%= news[row].body %></td>
                         </tr>
                         <% count = count + 1 %>
                         <% } %>
