@@ -23,9 +23,9 @@ router.get('/', loadUser, function (req, res, next) {
 router.get('/index', loadUser, function (req, res, next) {
     var user = req.user.toJSON();
 
-    knex('news').where({category: 'sports_news'}).then(function (sports) {
+    knex('news').where({category: 'sports_news'}).orderBy('news_id', 'desc').then(function (sports) {
         sportsNews = sports;
-        knex('news').where({category: 'local_news'}).then(function (local) {
+        knex('news').where({category: 'local_news'}).orderBy('news_id', 'desc').then(function (local) {
             localNews = local;
             knex('news').where({category: 'sports_news'}).count("news_id as sports_count").then(function (sports_total) {
                 sports_count = sports_total[0]["sports_count"];
@@ -304,7 +304,7 @@ router.get('/edit_news_menu', loadUser, function (req, res, next) {
         sports_count = sports_total[0]["sports_count"];
         knex('news').where({category: 'local_news'}).count("news_id as local_count").then(function (local_total) {
             local_count = local_total[0]["local_count"];
-            knex('news').where({category: req.query.category}).limit(10).then(function (news) {
+            knex('news').where({category: req.query.category}).limit(10).orderBy('news_id', 'desc').then(function (news) {
                 res.render('edit_news_menu', {newsCategory: newsCategory, category: req.query.category, news: news, sports_count: sports_count, local_count: local_count, user: user});
             });
 
@@ -371,7 +371,7 @@ router.get('/view_news_menu', loadUser, function (req, res, next) {
         sports_count = sports_total[0]["sports_count"];
         knex('news').where({category: 'local_news'}).count("news_id as local_count").then(function (local_total) {
             local_count = local_total[0]["local_count"];
-            knex('news').where({category: req.query.category}).limit(10).then(function (news) {
+            knex('news').where({category: req.query.category}).limit(10).orderBy('news_id', 'desc').then(function (news) {
                 res.render('view_news_menu', {newsCategory: newsCategory, category: req.query.category, news: news, sports_count: sports_count, local_count: local_count, user: user});
             });
         });
