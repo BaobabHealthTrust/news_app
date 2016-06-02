@@ -9,6 +9,9 @@ var session = require('express-session');
 var bcrypt = require('bcrypt-nodejs');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var busboy = require('connect-busboy');
+var multer  = require('multer');
+//var upload = multer({dest: '../uploads/'});
 
 // routes
 var routes = require('./routes/index');
@@ -63,6 +66,7 @@ app.use(bodyParser());
 app.use(session({secret: 'secret strategic xxzzz code'}));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(busboy()); 
 
 app.use('/', routes);
 

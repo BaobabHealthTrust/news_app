@@ -29,6 +29,26 @@
             .navbar-default .navbar-brand, .navbar-default .navbar-brand:hover { 
                 color: #fff;
             }
+
+            .btn-file {
+                position: relative;
+                overflow: hidden;
+            }
+            .btn-file input[type=file] {
+                position: absolute;
+                top: 0;
+                right: 0;
+                min-width: 100%;
+                min-height: 100%;
+                font-size: 100px;
+                text-align: right;
+                filter: alpha(opacity=0);
+                opacity: 0;
+                outline: none;
+                background: white;
+                cursor: inherit;
+                display: block;
+            }
         </style>
     </head>
     <body class=" theme-blue">
@@ -121,17 +141,17 @@
                         <li ><a href="/view_news_menu?category=local_news"><span class="fa fa-caret-right"></span> View Items</a></li>
                     </ul>
                 </li>
-<!--
-                <li><a href="#" data-target=".local-news-category-menu" class="nav-header" data-toggle="collapse"><i class="fa fa-fw"></i> Local News Category<i class="fa fa-collapse"></i></a></li>
-                <li>
-                    <ul class="local-news-category-menu nav nav-list collapse in">
-                        <li><a href="/add_category_menu?category=add_category"><span class="fa fa-caret-right"></span> Add Category</a></li>
-                        <li ><a href="/edit_category_menu?category=category_menu"><span class="fa fa-caret-right"></span> Edit Category</a></li>
-                        <li ><a href="/void_category_menu?category=category_menu"><span class="fa fa-caret-right"></span> Void Category</a></li>
-                        <li ><a href="/view_category_menu?category=category_menu"><span class="fa fa-caret-right"></span> View Categories</a></li>
-                    </ul>
-                </li>
--->
+                <!--
+                                <li><a href="#" data-target=".local-news-category-menu" class="nav-header" data-toggle="collapse"><i class="fa fa-fw"></i> Local News Category<i class="fa fa-collapse"></i></a></li>
+                                <li>
+                                    <ul class="local-news-category-menu nav nav-list collapse in">
+                                        <li><a href="/add_category_menu?category=add_category"><span class="fa fa-caret-right"></span> Add Category</a></li>
+                                        <li ><a href="/edit_category_menu?category=category_menu"><span class="fa fa-caret-right"></span> Edit Category</a></li>
+                                        <li ><a href="/void_category_menu?category=category_menu"><span class="fa fa-caret-right"></span> Void Category</a></li>
+                                        <li ><a href="/view_category_menu?category=category_menu"><span class="fa fa-caret-right"></span> View Categories</a></li>
+                                    </ul>
+                                </li>
+                -->
             </ul>
         </div>
 
@@ -155,7 +175,7 @@
                         <br>
                         <div id="myTabContent" class="tab-content">
                             <div class="tab-pane active in" id="home">
-                                <form id="tab" class="news-form" action="/save_news" method="POST">
+                                <form id="tab" class="news-form" action="/save_news" method="POST" enctype="multipart/form-data">
                                     <div class="form-group">
                                         <label>Title</label>
                                         <input type="text" value="" name="title" class="form-control">
@@ -166,6 +186,16 @@
                                         <label>body</label>
                                         <textarea rows="3" name="body" class="form-control"></textarea>
                                     </div>
+
+                                    <div class="control-group">
+                                        <label for="fileInput" class="control-label">Upload File</label>
+                                        <label class="btn btn-default btn-file">
+                                            Browse <input type="file" name="file" style="display: none;" onchange="$('#upload-file-info').html($(this).val());">
+                                        </label>
+                                        <span class='label label-info' id="upload-file-info"></span>
+                                    </div><br />
+
+                                    <br />
 
                                     <input type="hidden" value="<%= category %>" name="category">
                                 </form>

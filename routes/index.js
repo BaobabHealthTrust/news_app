@@ -5,6 +5,15 @@ var knex = require('../config/bookshelf').knex;
 var passport = require('passport');
 var bcrypt = require('bcrypt-nodejs');
 var loadUser = require('../force_login');
+var busboy = require('connect-busboy');
+var fs = require('fs'); //image uploading
+var mkdirp = require('mkdirp');
+var getDirName = require('path').dirname;
+// vendor libraries
+var multer = require('multer');
+var upload = multer({dest: '/tmp'});
+var uploadPath = './uploads/';
+var fse = require('fs-extra');
 
 // vendor libraries
 
@@ -250,21 +259,37 @@ router.get('/add_category_menu', loadUser, function (req, res, next) {
     res.render('add_category_menu', {newsCategory: newsCategory, category: req.query.category});
 });
 
-router.post('/save_news', function (req, res, next) {
-    console.log(req.body)
+router.post('/save_news', upload.single('file'), function (req, res, next) {
     title = req.body.title;
     body = req.body.body;
     category = req.body.category;
     date = new Date();
-    console.log("title = " + title + "\n body = " + body)
+
+    filePath = (req.file.path);
+    fileName = req.file.filename;
+    mimetype = req.file.mimetype;
+
     new News({
         title: title,
         body: body,
         category: category,
         date: date
     }).save().then(function (news) {
-        console.log('Record Successfully Saved');
-        res.redirect("/add_news_menu?category=" + category);
+        newsPathUploads = uploadPath + news.id;
+
+        if (!fs.existsSync(newsPathUploads)) {
+            fs.mkdirSync(newsPathUploads);
+            newPath = newsPathUploads + '/' + fileName;
+            fse.copy(filePath, newPath, function (err) {
+                if (err) {
+                    return console.error(err);
+                } else {
+                    console.log("success!")
+                    res.redirect("/add_news_menu?category=" + category);
+                }
+            }); //copies file
+        }
+
     })
 });
 

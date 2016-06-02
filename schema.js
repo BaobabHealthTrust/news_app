@@ -52,6 +52,16 @@ CREATE TABLE `' + dbconfig.database + '`.`user` ( \
      PRIMARY KEY (`user_id`)\
 )');
 
+connection.query('\
+CREATE TABLE `' + dbconfig.database + '`.`media` ( \
+    `media_id` INT UNSIGNED NOT NULL AUTO_INCREMENT, \
+    `news_id` int(11) NOT NULL, \
+    `filename` VARCHAR(100), \
+    `content_type` VARCHAR(100), \
+    `data` longblob, \
+     PRIMARY KEY (`media_id`)\
+)');
+
 console.log('Success: Database Created!')
 
 connection.end();
