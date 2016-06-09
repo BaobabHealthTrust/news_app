@@ -23,6 +23,8 @@ var model = require('./models/newsFeed');
 
 var app = express();
 
+app.use(express.static(__dirname + '/uploads'));
+
 passport.use(new LocalStrategy(function(username, password, done) {
    new model.User({username: username}).fetch().then(function(data) {
       var user = data;
@@ -99,6 +101,9 @@ app.use('/void_category_menu/:category?', routes);
 app.use('/void_category', routes)
 app.use('/view_news_menu/:category?', routes);
 app.use('/view_category_menu/:category', routes);
+app.use('/media/:news_id?', routes);
+app.use('/add_media', routes);
+
 app.use('/users', users);
 app.use('/users/process_authentication', users);
 app.use('/users/sign_out', users);
