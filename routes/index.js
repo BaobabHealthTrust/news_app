@@ -265,6 +265,7 @@ router.post('/save_news', upload.single('file'), function (req, res, next) {
     category = req.body.category;
     date = new Date();
 
+    //console.log(req.file)
     filePath = (req.file.path);
     fileName = req.file.filename;
     mimetype = req.file.mimetype;
@@ -450,6 +451,52 @@ router.post('/void_category', function (req, res, next) {
     });
 });
 
+router.get('/media', loadUser, function (req, res, next) {
+    var user = req.user.toJSON();
+    news_id = req.query.news_id;
+    knex('news').where('news_id', '=', news_id).then(function (news) {
+        newsPathUploads = uploadPath + news_id;
+        files = [];
+        fs.readdir(newsPathUploads, function (err, items) {
+            if (items) {
+                for (var i = 0; i < items.length; i++) {
+
+                    files.push(items[i]);
+                }
+            }
+            res.render('media', {user: user, news: news, files: files});
+        });
+    });
+
+});
+
+router.post('/add_media', upload.single('file'), function (req, res, next) {
+    news_id = req.body.news_id;
+    if (req.file) {
+        filePath = (req.file.path);
+        fileName = req.file.filename;
+        mimetype = req.file.mimetype;
+        newsPathUploads = uploadPath + news_id;
+        newPath = newsPathUploads + '/' + fileName;
+        
+        if (!fs.existsSync(newsPathUploads)) {
+            fs.mkdirSync(newsPathUploads);
+        }
+
+        fse.copy(filePath, newPath, function (err) {
+            if (err) {
+                return console.error(err);
+            } else {
+                console.log("success!")
+                res.redirect('/media?news_id=' + news_id);
+            }
+        });
+        
+    } else {
+        res.redirect('/media?news_id=' + news_id);
+    }
+
+})
 
 String.prototype.capitalize = function () {
     return this.toLowerCase().replace(/\b\w/g, function (m) {

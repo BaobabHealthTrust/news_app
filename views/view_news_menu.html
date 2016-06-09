@@ -36,6 +36,11 @@
             $(function () {
                 $('[data-popover="true"]').popover({html: true});
             });
+            
+            function manageMedia(newsID){
+                window.location = "/media?news_id=" + newsID;
+            }
+            
         </script>
 
         <script type="text/javascript">
@@ -120,17 +125,17 @@
                         <li ><a href="/view_news_menu?category=local_news"><span class="fa fa-caret-right"></span> View Items</a></li>
                     </ul>
                 </li>
-<!--
-                <li><a href="#" data-target=".local-news-category-menu" class="nav-header" data-toggle="collapse"><i class="fa fa-fw"></i> Local News Category<i class="fa fa-collapse"></i></a></li>
-                <li>
-                    <ul class="local-news-category-menu nav nav-list collapse in">
-                        <li><a href="/add_category_menu?category=add_category"><span class="fa fa-caret-right"></span> Add Category</a></li>
-                        <li ><a href="/edit_category_menu?category=category_menu"><span class="fa fa-caret-right"></span> Edit Category</a></li>
-                        <li ><a href="/void_category_menu?category=category_menu"><span class="fa fa-caret-right"></span> Void Category</a></li>
-                        <li ><a href="/view_category_menu?category=category_menu"><span class="fa fa-caret-right"></span> View Categories</a></li>
-                    </ul>
-                </li>
--->
+                <!--
+                                <li><a href="#" data-target=".local-news-category-menu" class="nav-header" data-toggle="collapse"><i class="fa fa-fw"></i> Local News Category<i class="fa fa-collapse"></i></a></li>
+                                <li>
+                                    <ul class="local-news-category-menu nav nav-list collapse in">
+                                        <li><a href="/add_category_menu?category=add_category"><span class="fa fa-caret-right"></span> Add Category</a></li>
+                                        <li ><a href="/edit_category_menu?category=category_menu"><span class="fa fa-caret-right"></span> Edit Category</a></li>
+                                        <li ><a href="/void_category_menu?category=category_menu"><span class="fa fa-caret-right"></span> Void Category</a></li>
+                                        <li ><a href="/view_category_menu?category=category_menu"><span class="fa fa-caret-right"></span> View Categories</a></li>
+                                    </ul>
+                                </li>
+                -->
             </ul>
         </div>
 
@@ -155,6 +160,7 @@
                             <th>#</th>
                             <th>Title</th>
                             <th>Body</th>
+                            <th>Media</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -164,12 +170,15 @@
                             <td style="font-weight: bold;"><%= count %>.</td>
                             <td><%= news[row].title %></td>
                             <td><%= news[row].body %></td>
+                            <td>
+                                <button class="btn btn-primary" onclick="manageMedia('<%= news[row].news_id %>')"><i class="fa fa-cloud-upload"></i> Media</button>
+                            </td>
                         </tr>
                         <% count = count + 1 %>
                         <% } %>
                     </tbody>
                 </table>
-                
+
                 <footer>
                     <hr>
                     <p>© 2015 <a href="http://www.baobabhealth.org" target="_blank">Baobab Health Trust</a></p>
@@ -180,12 +189,12 @@
 
         <script src="lib/bootstrap/js/bootstrap.js"></script>
         <script type="text/javascript">
-            $("[rel=tooltip]").tooltip();
-            $(function () {
-                $('.demo-cancel-click').click(function () {
-                    return false;
-                });
-            });
+                                    $("[rel=tooltip]").tooltip();
+                                    $(function () {
+                                        $('.demo-cancel-click').click(function () {
+                                            return false;
+                                        });
+                                    });
         </script>
 
 
