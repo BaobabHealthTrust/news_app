@@ -14,9 +14,9 @@ router.get('/news_feed', function (req, res, next) {
     // ipAddress = unformattedIpString[unformattedIpString.length - 1];
     ipAddress = req.query.ip_address;
 
-    knex('news').where({category: 'sports_news'}).limit(10).then(function (sports_news) {
+    knex('news').where({category: 'sports_news'}).limit(10).orderBy('news_id', 'desc').then(function (sports_news) {
         news["sports_news"] = sports_news;
-        knex('news').where({category: 'local_news'}).limit(10).then(function (local_news) {
+        knex('news').where({category: 'local_news'}).limit(10).orderBy('news_id', 'desc').then(function (local_news) {
             news["local_news"] = local_news;
             var data = {};
             knex('tracker').where({ip_address: ipAddress}).andWhere('news_id', '>', 0).then(function (trackers) {

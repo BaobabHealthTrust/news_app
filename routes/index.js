@@ -32,9 +32,9 @@ router.get('/', loadUser, function (req, res, next) {
 router.get('/index', loadUser, function (req, res, next) {
     var user = req.user.toJSON();
 
-    knex('news').where({category: 'sports_news'}).then(function (sports) {
+    knex('news').where({category: 'sports_news'}).orderBy('news_id', 'desc').then(function (sports) {
         sportsNews = sports;
-        knex('news').where({category: 'local_news'}).then(function (local) {
+        knex('news').where({category: 'local_news'}).orderBy('news_id', 'desc').then(function (local) {
             localNews = local;
             knex('news').where({category: 'sports_news'}).count("news_id as sports_count").then(function (sports_total) {
                 sports_count = sports_total[0]["sports_count"];
@@ -149,8 +149,8 @@ router.get('/view_user_menu', loadUser, function (req, res, next) {
         sports_count = sports_total[0]["sports_count"];
         knex('news').where({category: 'local_news'}).count("news_id as local_count").then(function (local_total) {
             local_count = local_total[0]["local_count"];
-            knex('user').limit(10).then(function (user) {
-                res.render('view_user_menu', {user: user, category: req.query.category, sports_count: sports_count, local_count: local_count, user: user});
+            knex('user').then(function (user) {
+                res.render('view_user_menu', {category: req.query.category, sports_count: sports_count, local_count: local_count, user: user});
             });
         });
     });
@@ -200,37 +200,37 @@ router.get('/reset_password_view/', loadUser, function (req, res, next) {
 // POST
 router.post('/reset_password', function (req, res, next) {
     var user = req.body;
-    var password = user.password;
-    new User({user_id: user.user_id}).fetch().then(function (data) {
-        var users = data;
+    var user_id = req.body.user_id;
 
-        if (!bcrypt.compareSync(password, users.password)) {
-            res.render('reset_password_view', {title: users.password, errorMessage: 'The current password doesnt match', this_user: users});
-        } else {
-            //****************************************************//
-            // more Validation to be added
-            //****************************************************//
-
-            if (user.new_password !== user.confirm_password) {
-                res.render('reset_password_view', {title: 'Reset Password', errorMessage: 'Password mismatch. Make sure the New password and confirm password are the same!', this_user: users});
+    passport.authenticate('local', {successRedirect: '/', 
+        failureRedirect: '/reset_password_view'}, function (err, user, info) {
+        
+        return req.logIn(user, function (err) {
+            if (err) {
+                knex('user').where({user_id: user_id}).limit(1).then(function (this_user) {
+                res.render('reset_password_view', {this_user: this_user[0], sports_count: sports_count, local_count: local_count, title: 'Change Password', user: user, errorMessage: 'The Current password doesnt match'});
+                });
             } else {
 
-                var hash = bcrypt.hashSync(user.new_password);
-                user_id = req.body.user_id;
+                var new_password = req.body.new_password;
+                var confirm_password = req.body.confirm_password;
+
+                if (new_password !== confirm_password) {
+                    res.render('reset_password_view', {title: 'Change Password', errorMessage: 'Password mismatch. Make sure the New password and confirm password are the same!', this_user: user, user: user});
+            } else {
+
+                var hash = bcrypt.hashSync(new_password);
 
                 new User({user_id: user_id}).save({password: hash})
                         .then(function (user) {
                             return res.redirect("/view_user_menu");
                         });
-            }
-            ;
+            };
 
-        }
-        ;
-    });
-    (req, res, next);
+         };
+        });
+    })(req, res, next);
 });
-
 
 // 404 not found
 router.get('/notFound404', function (req, res, next) {
@@ -330,7 +330,7 @@ router.get('/edit_news_menu', loadUser, function (req, res, next) {
         sports_count = sports_total[0]["sports_count"];
         knex('news').where({category: 'local_news'}).count("news_id as local_count").then(function (local_total) {
             local_count = local_total[0]["local_count"];
-            knex('news').where({category: req.query.category}).limit(10).then(function (news) {
+            knex('news').where({category: req.query.category}).limit(10).orderBy('news_id', 'desc').then(function (news) {
                 res.render('edit_news_menu', {newsCategory: newsCategory, category: req.query.category, news: news, sports_count: sports_count, local_count: local_count, user: user});
             });
 
@@ -370,7 +370,7 @@ router.post('/save_edited_news', function (req, res, next) {
 router.get('/void_news_menu', loadUser, function (req, res, next) {
     var user = req.user.toJSON();
 
-    newsCategory = (req.query.category.replace("_", ' ')).capitalize();
+    newsCategory = (req.query.category.replace("_", " ")).capitalize();
     knex('news').where({category: 'sports_news'}).count("news_id as sports_count").then(function (sports_total) {
         sports_count = sports_total[0]["sports_count"];
         knex('news').where({category: 'local_news'}).count("news_id as local_count").then(function (local_total) {
@@ -397,7 +397,7 @@ router.get('/view_news_menu', loadUser, function (req, res, next) {
         sports_count = sports_total[0]["sports_count"];
         knex('news').where({category: 'local_news'}).count("news_id as local_count").then(function (local_total) {
             local_count = local_total[0]["local_count"];
-            knex('news').where({category: req.query.category}).limit(10).then(function (news) {
+            knex('news').where({category: req.query.category}).limit(10).orderBy('news_id', 'desc').then(function (news) {
                 res.render('view_news_menu', {newsCategory: newsCategory, category: req.query.category, news: news, sports_count: sports_count, local_count: local_count, user: user});
             });
         });
