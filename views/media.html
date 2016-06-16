@@ -54,6 +54,21 @@
             function submitMediaForm() {
                 document.forms[0].submit();
             }
+
+            function confirmAction(obj) {
+                fileName = $(obj).attr('file_name');
+                console.log(fileName);
+                $('#deleteMediaModal').modal('show')
+            }
+            
+            function deleteMedia(){
+                fileNameInput = document.getElementById("file_name");
+                fileNameInput.value = fileName;
+                
+                deleteMediaForm = document.getElementById("deleteMediaForm");
+                deleteMediaForm.submit();
+                
+            }
         </script>
 
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -165,8 +180,8 @@
                     <p class="panel-heading">Media</p>
                     <div class="panel-body gallery">
                         <% for (var i=0; i<=files.length - 1; i++){ %>                       
-                            <img class="img-polaroid" src="/<%=news_id%>/<%=files[i]%>">
-                            <button class="btn btn-primary"><i class="fa fa-minus"></i> Delete</button>                       
+                        <img class="img-polaroid" src="/<%=news_id%>/<%=files[i]%>">
+                        <button file_name="<%=files[i]%>" onclick="confirmAction(this)" class="btn btn-primary"><i class="fa fa-minus"></i> Delete</button>                       
                         <% } %>
 
                         <div class="clearfix"></div>
@@ -199,6 +214,30 @@
 
                         <div class="btn-toolbar list-toolbar">
                             <button onclick="submitMediaForm();" class="btn btn-primary"><i class="fa fa-save"></i> Submit</button>
+                        </div>
+
+                        <form id="deleteMediaForm" action="/delete_file"method="POST">
+                            <input type="hidden" name="file_name" id="file_name"/>
+                            <input type="hidden" value="<%= news_id %>" name="news_id">
+                        </form>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="deleteMediaModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <span style="font-size: 12pt;">Delete Confirmation</span>
+                            </div>
+                            <div class="modal-body">
+
+                                <p class="error-text"><i class="fa fa-warning modal-icon"></i>Are you sure you want to delete the selected media?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                                <button onclick="deleteMedia()" class="btn btn-danger" data-dismiss="modal">Delete</button>
+                            </div>
                         </div>
                     </div>
                 </div>

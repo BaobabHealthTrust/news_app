@@ -498,6 +498,14 @@ router.post('/add_media', upload.single('file'), function (req, res, next) {
 
 })
 
+router.post('/delete_file', loadUser, function (req, res, next) {
+    file_name = req.body.file_name;
+    news_id = req.body.news_id;
+    filePath = uploadPath + '/' + news_id + '/' + file_name;
+    fs.unlinkSync(filePath);
+    res.redirect('/media?news_id=' + news_id);
+})
+
 String.prototype.capitalize = function () {
     return this.toLowerCase().replace(/\b\w/g, function (m) {
         return m.toUpperCase();
