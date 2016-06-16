@@ -168,16 +168,11 @@
                         <% for (var row in news){ %>
                         <tr>
                             <td style="font-weight: bold;"><%= count %>.</td>
-<<<<<<< HEAD
                             <td><%= news[row].title %></td>
                             <td><%= news[row].body %></td>
                             <td>
                                 <button class="btn btn-primary" onclick="manageMedia('<%= news[row].news_id %>')"><i class="fa fa-cloud-upload"></i> Media</button>
                             </td>
-=======
-                            <td> <b><%= news[row].title %> </b></td>
-                            <td align="justify"><%= news[row].body %></td>
->>>>>>> aeb4fa5f7f4004213b77b3e4e3cc663372b7b68e
                         </tr>
                         <% count = count + 1 %>
                         <% } %>
