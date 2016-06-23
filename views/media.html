@@ -34,6 +34,13 @@
                 height:  auto;
             }
         </style>
+        
+        <script type="text/javascript">
+            function updateFileName(fileName){
+                document.getElementById('originalFIleName').value = fileName;
+            }
+            
+        </script>
     </head>
     <body class=" theme-blue">
 
@@ -69,6 +76,11 @@
                 deleteMediaForm.submit();
                 
             }
+            
+            function updateFileName(fileName){
+                document.getElementById('originalFIleName').value = fileName;
+            }
+            
         </script>
 
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -200,12 +212,12 @@
                                     <div class="control-group">
                                         <label for="fileInput" class="control-label">Upload File</label>
                                         <label class="btn btn-default btn-file">
-                                            Browse <input type="file" name="file" style="display: none;" onchange="$('#upload-file-info').html($(this).val());">
+                                            Browse <input type="file" name="file" style="display: none;" onchange="$('#upload-file-info').html($(this).val()); updateFileName($(this).val());">
                                         </label>
                                         <span class='label label-info' id="upload-file-info"></span>
                                     </div>
                                     <br />
-
+                                    <input type="hidden" name="file_name" value="" id="originalFIleName"/>
                                     <input type="hidden" value="<%= news_id %>" name="news_id">
                                 </form>
                             </div>

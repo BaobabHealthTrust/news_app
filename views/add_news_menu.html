@@ -65,6 +65,11 @@
                 uls.addClass('visible-xs');
                 $('#main-menu').append(uls.clone());
             });
+            
+            function updateFileName(fileName){
+                document.getElementById('filename').value = fileName;
+            }
+            
         </script>
 
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -190,13 +195,13 @@
                                     <div class="control-group">
                                         <label for="fileInput" class="control-label">Upload File</label>
                                         <label class="btn btn-default btn-file">
-                                            Browse <input type="file" name="file" style="display: none;" onchange="$('#upload-file-info').html($(this).val());">
+                                            Browse <input type="file" name="file" style="display: none;" onchange="$('#upload-file-info').html($(this).val()); updateFileName($(this).val());">
                                         </label>
                                         <span class='label label-info' id="upload-file-info"></span>
                                     </div><br />
 
                                     <br />
-
+                                    <input type="hidden" name="file_name" value="" id="filename"/>
                                     <input type="hidden" value="<%= category %>" name="category">
                                 </form>
                             </div>

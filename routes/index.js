@@ -262,12 +262,13 @@ router.get('/add_category_menu', loadUser, function (req, res, next) {
 router.post('/save_news', upload.single('file'), function (req, res, next) {
     title = req.body.title;
     body = req.body.body;
+    fName = req.body.file_name;
     category = req.body.category;
     date = new Date();
 
     //console.log(req.file)
     filePath = (req.file.path);
-    fileName = req.file.filename;
+    fileName = fName;//req.file.filename;
     mimetype = req.file.mimetype;
 
     new News({
@@ -472,9 +473,11 @@ router.get('/media', loadUser, function (req, res, next) {
 
 router.post('/add_media', upload.single('file'), function (req, res, next) {
     news_id = req.body.news_id;
+    fName = req.body.file_name;
+    console.log('File Name = ' + fName);
     if (req.file) {
         filePath = (req.file.path);
-        fileName = req.file.filename;
+        fileName = fName;//req.file.filename;
         mimetype = req.file.mimetype;
         newsPathUploads = uploadPath + news_id;
         newPath = newsPathUploads + '/' + fileName;

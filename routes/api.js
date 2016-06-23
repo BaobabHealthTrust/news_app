@@ -2,6 +2,9 @@ var express = require('express');
 var router = express.Router();
 var model = require('../models/newsFeed');
 var knex = require('../config/bookshelf').knex;
+var fs = require('fs');
+var fse = require('fs-extra')
+var uploadPath = './uploads/';
 
 News = model.News;
 Tracker = model.Tracker;
@@ -31,15 +34,28 @@ router.get('/news_feed', function (req, res, next) {
                         if (news[category][row]["category"] === 'local_news')
                             news_category = 'news';
 
+                        newsPathUploads = uploadPath + newsId;
+
+                        if (!fs.existsSync(newsPathUploads)) {
+                            fs.mkdirSync(newsPathUploads);
+                        }
+                        
+                        file_names = fs.readdirSync(newsPathUploads);
+                        files = [];
+                        for (var i=0; i<=file_names.length - 1; i++){
+                            filePath = newsPathUploads + '/' + file_names[i];
+                            files.push(base64_encode(filePath));
+                        }
+                        
                         date_created = news[category][row]["created_at"];
                         datetime = (new Date(date_created)).getTime() //To be pulled from the db
-                        data[newsId] = {id: newsId, title: title, body: body, category: news_category, datetime: datetime};
+                        data[newsId] = {id: newsId, title: title, body: body, category: news_category, datetime: datetime, files: files};
                     }
                 }
 
                 for (var row in trackers) {
                     news_id = trackers[row].news_id;
-                    logs[news_id] = true
+                    logs[news_id] = true;
                 }
 
                 data["ip_address"] = ipAddress;
@@ -77,5 +93,11 @@ String.prototype.capitalize = function () {
     });
 };
 
+function base64_encode(file) {
+    // read binary data
+    var bitmap = fs.readFileSync(file);
+    // convert binary data to base64 encoded string
+    return new Buffer(bitmap).toString('base64');
+}
 
 module.exports = router;
