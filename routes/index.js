@@ -262,14 +262,37 @@ router.get('/add_category_menu', loadUser, function (req, res, next) {
 router.post('/save_news', upload.single('file'), function (req, res, next) {
     title = req.body.title;
     body = req.body.body;
-    fName = req.body.file_name;
+    //fName = req.body.file_name;
     category = req.body.category;
     date = new Date();
 
     //console.log(req.file)
-    filePath = (req.file.path);
-    fileName = fName;//req.file.filename;
-    mimetype = req.file.mimetype;
+    //filePath = (req.file.path);
+    //fileName = fName;//req.file.filename;
+    //mimetype = req.file.mimetype;
+
+    // new News({
+    //     title: title,
+    //     body: body,
+    //     category: category,
+    //     date: date
+    // }).save().then(function (news) {
+    //     newsPathUploads = uploadPath + news.id;
+    //
+    //     if (!fs.existsSync(newsPathUploads)) {
+    //         fs.mkdirSync(newsPathUploads);
+    //         newPath = newsPathUploads + '/' + fileName;
+    //         fse.copy(filePath, newPath, function (err) {
+    //             if (err) {
+    //                 return console.error(err);
+    //             } else {
+    //                 console.log("success!")
+    //                 res.redirect("/add_news_menu?category=" + category);
+    //             }
+    //         }); //copies file
+    //     }
+    //
+    // })
 
     new News({
         title: title,
@@ -277,22 +300,9 @@ router.post('/save_news', upload.single('file'), function (req, res, next) {
         category: category,
         date: date
     }).save().then(function (news) {
-        newsPathUploads = uploadPath + news.id;
-
-        if (!fs.existsSync(newsPathUploads)) {
-            fs.mkdirSync(newsPathUploads);
-            newPath = newsPathUploads + '/' + fileName;
-            fse.copy(filePath, newPath, function (err) {
-                if (err) {
-                    return console.error(err);
-                } else {
-                    console.log("success!")
-                    res.redirect("/add_news_menu?category=" + category);
-                }
-            }); //copies file
-        }
-
+        res.redirect("/view_news_menu?category=" + category );
     })
+
 });
 
 router.post('/retrieve_news', function (req, res, next) {

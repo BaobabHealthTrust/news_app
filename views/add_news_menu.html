@@ -188,20 +188,21 @@
 
 
                                     <div class="form-group">
-                                        <label>body</label>
+                                        <label>Body</label>
                                         <textarea rows="3" name="body" class="form-control"></textarea>
                                     </div>
 
-                                    <div class="control-group">
-                                        <label for="fileInput" class="control-label">Upload File</label>
-                                        <label class="btn btn-default btn-file">
-                                            Browse <input type="file" name="file" style="display: none;" onchange="$('#upload-file-info').html($(this).val()); updateFileName($(this).val());">
-                                        </label>
-                                        <span class='label label-info' id="upload-file-info"></span>
-                                    </div><br />
+                                    <!--<div class="control-group">-->
+                                        <!--<label for="fileInput" class="control-label">Upload File</label>-->
+                                        <!--<label class="btn btn-default btn-file">-->
+                                            <!--Browse <input type="file" name="file" style="display: none;" onchange="$('#upload-file-info').html($(this).val()); updateFileName($(this).val());">-->
+                                        <!--</label>-->
+                                        <!--<span class='label label-info' id="upload-file-info"></span>-->
+                                    <!--</div>-->
+                                    <br />
 
                                     <br />
-                                    <input type="hidden" name="file_name" value="" id="filename"/>
+                                    <!--<input type="hidden" name="file_name" value="" id="filename"/>-->
                                     <input type="hidden" value="<%= category %>" name="category">
                                 </form>
                             </div>
