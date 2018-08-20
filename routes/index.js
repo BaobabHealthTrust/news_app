@@ -376,7 +376,7 @@ router.get('/void_news_menu', loadUser, function (req, res, next) {
         sports_count = sports_total[0]["sports_count"];
         knex('news').where({category: 'local_news'}).count("news_id as local_count").then(function (local_total) {
             local_count = local_total[0]["local_count"];
-            knex('news').where({category: req.query.category}).limit(10).then(function (news) {
+            knex('news').where({category: req.query.category}).then(function (news) {
                 res.render('void_news_menu', {newsCategory: newsCategory, category: req.query.category, news: news, sports_count: sports_count, local_count: local_count, user: user});
             });
         });
@@ -398,7 +398,7 @@ router.get('/view_news_menu', loadUser, function (req, res, next) {
         sports_count = sports_total[0]["sports_count"];
         knex('news').where({category: 'local_news'}).count("news_id as local_count").then(function (local_total) {
             local_count = local_total[0]["local_count"];
-            knex('news').where({category: req.query.category}).limit(10).orderBy('news_id', 'desc').then(function (news) {
+            knex('news').where({category: req.query.category}).orderBy('news_id', 'desc').then(function (news) {
                 res.render('view_news_menu', {newsCategory: newsCategory, category: req.query.category, news: news, sports_count: sports_count, local_count: local_count, user: user});
             });
         });
